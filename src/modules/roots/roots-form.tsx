@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { motion } from 'motion/react'
+import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -73,91 +74,82 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <motion.form
+      onSubmit={handleSubmit}
+      className="space-y-5"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Método
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Método</Label>
           <Select value={method} onValueChange={(v) => setMethod(v as RootMethod)}>
-            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-electric-cyan focus:ring-electric-cyan/20">
+            <SelectTrigger className="bg-white border-border font-mono text-[12px] h-8">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-deep-night border-subtle-edge">
+            <SelectContent className="bg-white border-border">
               {METHODS.map((m) => (
-                <SelectItem key={m.id} value={m.id} className="font-mono text-[13px]">
-                  {m.label}
-                </SelectItem>
+                <SelectItem key={m.id} value={m.id} className="font-mono text-[12px]">{m.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Tolerancia
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Tolerancia</Label>
           <Input
             type="number"
             value={tolerance}
             onChange={(e) => setTolerance(e.target.value)}
-            className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+            className="bg-white border-border font-mono text-[12px] h-8"
             step="0.000001"
           />
         </div>
       </div>
 
       <div>
-        <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-          Función f(x)
-        </Label>
+        <Label className="text-[11px] text-text-dim mb-1.5 block">Función f(x)</Label>
         <Input
           type="text"
           value={fExpression}
           onChange={(e) => setFExpression(e.target.value)}
-          className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+          className="bg-white border-border font-mono text-[12px] h-8"
           placeholder="x^3 - x - 2"
         />
-        <p className="text-[11px] text-dim mt-1">Use x como variable. Ej: x^3 - x - 2, sin(x), exp(x)</p>
+        <p className="text-[11px] text-text-dim mt-1">Use x como variable. Ej: x^3 - x - 2, sin(x), exp(x)</p>
       </div>
 
       {method === 'newton-raphson' && (
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Derivada f'(x)
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Derivada f'(x)</Label>
           <Input
             type="text"
             value={fPrimeExpression}
             onChange={(e) => setFPrimeExpression(e.target.value)}
-            className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+            className="bg-white border-border font-mono text-[12px] h-8"
             placeholder="3*x^2 - 1"
           />
         </div>
       )}
 
       {method === 'bisection' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-              Límite inferior (a)
-            </Label>
+            <Label className="text-[11px] text-text-dim mb-1.5 block">Límite inferior (a)</Label>
             <Input
               type="number"
               value={a}
               onChange={(e) => setA(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+              className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
           <div>
-            <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-              Límite superior (b)
-            </Label>
+            <Label className="text-[11px] text-text-dim mb-1.5 block">Límite superior (b)</Label>
             <Input
               type="number"
               value={b}
               onChange={(e) => setB(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+              className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
         </div>
@@ -165,76 +157,59 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
 
       {method === 'newton-raphson' && (
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Valor inicial (x₀)
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Valor inicial (x₀)</Label>
           <Input
             type="number"
             value={x0}
             onChange={(e) => setX0(e.target.value)}
-            className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+            className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>
       )}
 
       {method === 'secant' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-              Primer punto (x₀)
-            </Label>
+            <Label className="text-[11px] text-text-dim mb-1.5 block">Primer punto (x₀)</Label>
             <Input
               type="number"
               value={x0}
               onChange={(e) => setX0(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+              className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
           <div>
-            <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-              Segundo punto (x₁)
-            </Label>
+            <Label className="text-[11px] text-text-dim mb-1.5 block">Segundo punto (x₁)</Label>
             <Input
               type="number"
               value={x1}
               onChange={(e) => setX1(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+              className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
         </div>
       )}
 
       <div>
-        <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-          Iteraciones máximas
-        </Label>
+        <Label className="text-[11px] text-text-dim mb-1.5 block">Iteraciones máximas</Label>
         <Input
           type="number"
           value={maxIterations}
           onChange={(e) => setMaxIterations(e.target.value)}
-          className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20 max-w-[200px]"
+          className="bg-white border-border font-mono text-[12px] h-8 max-w-[200px]"
           min="1"
           max="10000"
         />
       </div>
 
-      <div className="flex gap-3">
-        <Button
-          type="submit"
-          disabled={isCalculating}
-          className="bg-electric-cyan text-void-black font-mono text-[13px] uppercase tracking-[0.2em] hover:bg-electric-cyan/90 hover:shadow-[0_0_20px_rgba(6,214,160,0.4)] active:scale-[0.97] transition-all px-8 h-10"
-        >
+      <div className="flex items-center gap-3 pt-1">
+        <GodButton type="submit" disabled={isCalculating}>
           {isCalculating ? 'Calculando...' : 'Calcular'}
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={handleReset}
-          className="text-mist hover:text-ghost-white font-mono text-[13px] uppercase tracking-[0.2em] h-10"
-        >
+        </GodButton>
+        <GodButton type="button" variant="secondary" onClick={handleReset}>
           Limpiar
-        </Button>
+        </GodButton>
       </div>
-    </form>
+    </motion.form>
   )
 }
