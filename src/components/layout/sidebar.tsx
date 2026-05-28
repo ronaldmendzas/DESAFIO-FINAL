@@ -30,8 +30,8 @@ export function Sidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
                 isActive
-                  ? 'text-ghost-white bg-charcoal'
-                  : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
+                  ? 'text-ghost-white bg-forest-muted'
+                  : 'text-mist hover:text-ghost-white hover:bg-ash'
               }`
             }
           >
@@ -54,8 +54,8 @@ export function Sidebar() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
                   isActive
-                    ? 'text-ghost-white bg-charcoal'
-                    : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
+                    ? 'text-ghost-white bg-forest-muted'
+                    : 'text-mist hover:text-ghost-white hover:bg-ash'
                 }`
               }
             >
@@ -72,8 +72,8 @@ export function Sidebar() {
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
               isActive
-                ? 'text-ghost-white bg-charcoal'
-                : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
+                ? 'text-ghost-white bg-forest-muted'
+                : 'text-mist hover:text-ghost-white hover:bg-ash'
             }`
           }
         >

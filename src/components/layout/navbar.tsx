@@ -28,72 +28,32 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[260px] bg-deep-night border-r border-subtle-edge p-0">
               <div className="p-6 flex items-center justify-between">
-                <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">
-                  YAKAN
-                </span>
+                <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">YAKAN</span>
                 <button onClick={() => setOpen(false)} className="text-mist hover:text-ghost-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <nav className="px-3 space-y-0.5">
-                <NavLink
-                  to="/"
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${
-                      isActive
-                        ? 'text-ghost-white bg-charcoal'
-                        : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
-                    }`
-                  }
-                >
-                  <Home className="w-4 h-4" />
-                  Inicio
+                <NavLink to="/" onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${isActive ? 'text-ghost-white bg-forest-muted' : 'text-mist hover:text-ghost-white hover:bg-ash'}`}>
+                  <Home className="w-4 h-4" /> Inicio
                 </NavLink>
                 <div className="h-px bg-subtle-edge my-2" />
-                <p className="px-3 mb-1 text-[10px] uppercase tracking-[0.15em] text-dim">
-                  Módulos
-                </p>
+                <p className="px-3 mb-1 text-[10px] uppercase tracking-[0.15em] text-dim">Módulos</p>
                 {modules.map(({ to, label, icon: Icon }) => (
-                  <NavLink
-                    key={to}
-                    to={to}
-                    onClick={() => setOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${
-                        isActive
-                          ? 'text-ghost-white bg-charcoal'
-                          : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
-                      }`
-                    }
-                  >
-                    <Icon className="w-4 h-4" />
-                    {label}
+                  <NavLink key={to} to={to} onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${isActive ? 'text-ghost-white bg-forest-muted' : 'text-mist hover:text-ghost-white hover:bg-ash'}`}>
+                    <Icon className="w-4 h-4" /> {label}
                   </NavLink>
                 ))}
                 <div className="h-px bg-subtle-edge my-2" />
-                <NavLink
-                  to="/conclusiones"
-                  onClick={() => setOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${
-                      isActive
-                        ? 'text-ghost-white bg-charcoal'
-                        : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
-                    }`
-                  }
-                >
-                  <BookOpen className="w-4 h-4" />
-                  Conclusiones
+                <NavLink to="/conclusiones" onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${isActive ? 'text-ghost-white bg-forest-muted' : 'text-mist hover:text-ghost-white hover:bg-ash'}`}>
+                  <BookOpen className="w-4 h-4" /> Conclusiones
                 </NavLink>
               </nav>
             </SheetContent>
           </Sheet>
 
           <NavLink to="/" className="hidden lg:block">
-            <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">
-              YAKAN
-            </span>
+            <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">YAKAN</span>
           </NavLink>
         </div>
 

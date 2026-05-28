@@ -11,23 +11,23 @@ type Props = {
   suffix?: string
 }
 
-const variantStyles: Record<Variant, string> = {
-  default: 'border-l-ghost-white',
-  success: 'border-l-neon-mint',
+const borderStyles: Record<Variant, string> = {
+  default: 'border-l-forest-light',
+  success: 'border-l-forest-light',
   warning: 'border-l-warm-amber',
   danger: 'border-l-signal-red',
 }
 
 const valueStyles: Record<Variant, string> = {
   default: 'text-ghost-white',
-  success: 'text-neon-mint',
+  success: 'text-forest-light',
   warning: 'text-warm-amber',
   danger: 'text-signal-red',
 }
 
 export function ResultCard({ label, value, icon: Icon, variant = 'default', decimals = 6, suffix }: Props) {
   return (
-    <div className={`bg-deep-night border border-subtle-edge border-l-2 rounded-md p-4 ${variantStyles[variant]}`}>
+    <div className={`bg-deep-night border border-subtle-edge border-l-2 rounded-md p-4 ${borderStyles[variant]}`}>
       <p className="text-[11px] uppercase tracking-[0.15em] text-mist font-medium mb-1 flex items-center gap-2">
         {Icon && <Icon className="w-3.5 h-3.5" />}
         {label}

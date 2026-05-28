@@ -13,7 +13,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="w-8 h-8 flex items-center justify-center rounded-md text-mist hover:text-ghost-white hover:bg-charcoal transition-colors"
+      className="w-8 h-8 flex items-center justify-center rounded-md text-mist hover:text-ghost-white transition-colors"
       aria-label="Cambiar tema"
     >
       {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}

@@ -36,7 +36,7 @@ export function IterationTable({ headers, rows, highlightLast = true, maxHeight 
                   key={i}
                   className={`border-b border-subtle-edge/50 font-mono text-[13px] ${
                     isLast && highlightLast
-                      ? 'bg-charcoal text-ghost-white'
+                      ? 'bg-forest-muted text-ghost-white'
                       : 'text-mist'
                   }`}
                 >

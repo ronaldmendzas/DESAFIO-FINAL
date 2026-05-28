@@ -47,27 +47,18 @@ export function LinearSystemsResults({ results }: Props) {
             </h3>
             <span className={`inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded ${
               result.converged
-                ? 'bg-charcoal text-neon-mint'
+                ? 'bg-forest-muted text-forest-light'
                 : 'bg-charcoal text-signal-red'
             }`}>
               {result.converged ? <><CheckCircle className="w-3 h-3" /> Convergió</> : <><XCircle className="w-3 h-3" /> No convergió</>}
             </span>
           </div>
 
-          <FormulaDisplay
-            latex={FORMULAS[result.method] || ''}
-            label={METHOD_NAMES[result.method]}
-          />
+          <FormulaDisplay latex={FORMULAS[result.method] || ''} label={METHOD_NAMES[result.method]} />
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {result.result.map((val, i) => (
-              <ResultCard
-                key={i}
-                label={`x${i + 1}`}
-                value={val}
-                variant="default"
-                decimals={6}
-              />
+              <ResultCard key={i} label={`x${i + 1}`} value={val} variant="default" decimals={6} />
             ))}
           </div>
 
@@ -86,9 +77,7 @@ export function LinearSystemsResults({ results }: Props) {
                   <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(50px, 1fr))` }}>
                     {result.decomposition.L.map((row, i) =>
                       row.map((val, j) => (
-                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">
-                          {val.toFixed(4)}
-                        </span>
+                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">{val.toFixed(4)}</span>
                       ))
                     )}
                   </div>
@@ -98,9 +87,7 @@ export function LinearSystemsResults({ results }: Props) {
                   <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(50px, 1fr))` }}>
                     {result.decomposition.U.map((row, i) =>
                       row.map((val, j) => (
-                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">
-                          {val.toFixed(4)}
-                        </span>
+                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">{val.toFixed(4)}</span>
                       ))
                     )}
                   </div>
@@ -115,13 +102,10 @@ export function LinearSystemsResults({ results }: Props) {
               <div className="bg-void-black border border-subtle-edge rounded-md p-4">
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={result.iterations}>
-                    <XAxis dataKey="iteration" stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} />
-                    <YAxis stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#18181B', border: '1px solid #27272A', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }}
-                      labelStyle={{ color: '#E4E4E7' }}
-                    />
-                    <Line type="monotone" dataKey="error" stroke="#71717A" strokeWidth={1.5} dot={{ fill: '#71717A', r: 2 }} name="Error" />
+                    <XAxis dataKey="iteration" stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} />
+                    <YAxis stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#141816', border: '1px solid #1E2422', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }} labelStyle={{ color: '#D4D4D4' }} />
+                    <Line type="monotone" dataKey="error" stroke="#1A4D3E" strokeWidth={1.5} dot={{ fill: '#1A4D3E', r: 2 }} name="Error" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -152,12 +136,12 @@ export function LinearSystemsResults({ results }: Props) {
           <div className="bg-void-black border border-subtle-edge rounded-md p-4">
             <ResponsiveContainer width="100%" height={280}>
               <LineChart>
-                <XAxis dataKey="iteration" stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} type="number" allowDuplicatedCategory={false} />
-                <YAxis stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} />
-                <Tooltip contentStyle={{ backgroundColor: '#18181B', border: '1px solid #27272A', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }} labelStyle={{ color: '#E4E4E7' }} />
+                <XAxis dataKey="iteration" stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} type="number" allowDuplicatedCategory={false} />
+                <YAxis stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#141816', border: '1px solid #1E2422', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }} labelStyle={{ color: '#D4D4D4' }} />
                 <Legend />
                 {results.map((r, i) => {
-                  const colors = ['#E4E4E7', '#F5A623', '#A78BFA', '#EF4444', '#34D399']
+                  const colors = ['#1A4D3E', '#C49A2A', '#A78BFA', '#A3413A', '#737973']
                   return (
                     <Line key={i} data={r.iterations} type="monotone" dataKey="error" stroke={colors[i % colors.length]} strokeWidth={1.5} name={METHOD_NAMES[r.method]} />
                   )
