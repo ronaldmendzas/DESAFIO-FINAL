@@ -1,10 +1,17 @@
 import { Navbar } from './navbar'
 import { Sidebar } from './sidebar'
 import { Outlet } from 'react-router-dom'
+import { DotPattern } from '@/components/ui/dot-pattern'
 
 export function AppLayout() {
   return (
-    <div className="min-h-screen bg-bg text-text">
+    <div className="min-h-screen bg-bg text-text relative">
+      <DotPattern
+        width={20}
+        height={20}
+        cr={0.8}
+        className="absolute inset-0 text-forest/[0.07] -z-10"
+      />
       <Navbar />
       <div className="flex">
         <Sidebar />
