@@ -114,14 +114,22 @@ export function LinearSystemsResults({ results }: Props) {
 
           {result.iterations.length > 0 && (
             <IterationTable
-              headers={['#', ...result.result.map((_, i) => `x${i + 1}`), 'error']}
-              rows={result.iterations.map((iter) => [iter.iteration, ...iter.values, iter.error])}
+              headers={[
+                { key: 'iteration', label: '#' },
+                ...result.result.map((_, i) => ({ key: `x${i + 1}`, label: `x${i + 1}` })),
+                { key: 'error', label: 'error' },
+              ]}
+              rows={result.iterations.map((iter) => ({
+                iteration: iter.iteration,
+                ...result.result.reduce((acc, _, i) => ({ ...acc, [`x${i + 1}`]: iter.values[i] }), {}),
+                error: iter.error,
+              }))}
             />
           )}
 
           <InterpretationCard
             title="Interpretación"
-            content={
+            description={
               result.converged
                 ? `${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones (error: ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}). Los valores de x indican las cantidades a distribuir a cada zona.`
                 : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método o ajuste la tolerancia.`

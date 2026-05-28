@@ -1,34 +1,33 @@
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {cn} from '@/lib/utils'
 
-type Method = {
-  id: string
-  label: string
-}
+type Option = { value: string; label: string }
 
 type Props = {
-  methods: Method[]
-  selected: string
-  onSelect: (id: string) => void
-  children: React.ReactNode
+  options: Option[]
+  value: string
+  onChange: (v: string) => void
+  className?: string
 }
 
-export function MethodSelector({ methods, selected, onSelect, children }: Props) {
+export function MethodSelector({ options, value, onChange, className = '' }: Props) {
   return (
-    <Tabs value={selected} onValueChange={onSelect}>
-      <TabsList className="bg-deep-night border border-subtle-edge h-auto p-1">
-        {methods.map((method) => (
-          <TabsTrigger
-            key={method.id}
-            value={method.id}
-            className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white"
-          >
-            {method.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {children}
-    </Tabs>
+    <div className={cn('flex flex-wrap gap-1.5', className)}>
+      {options.map(opt => (
+        <button
+          key={opt.value}
+          onClick={() => onChange(opt.value)}
+          className={cn(
+            'px-3 py-1.5 rounded-md text-[12px] font-medium transition-all duration-200',
+            'hover:bg-forest-bg hover:text-forest hover:scale-[1.03]',
+            'active:scale-95',
+            value === opt.value
+              ? 'bg-forest text-white shadow-sm hover:bg-forest-light hover:text-white'
+              : 'bg-surface text-text-secondary'
+          )}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
   )
 }
-
-export { TabsContent as MethodContent } from '@/components/ui/tabs'

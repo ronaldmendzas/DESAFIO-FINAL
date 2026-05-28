@@ -23,7 +23,7 @@ export function Sidebar() {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors mb-1 ${
+            `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200 mb-1 hover:translate-x-0.5 active:scale-95 ${
               isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'
             }`
           }
@@ -42,7 +42,7 @@ export function Sidebar() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200 hover:translate-x-0.5 active:scale-95 ${
                   isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'
                 }`
               }
@@ -59,7 +59,7 @@ export function Sidebar() {
         <NavLink
           to="/conclusiones"
           className={({ isActive }) =>
-            `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+            `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200 hover:translate-x-0.5 active:scale-95 ${
               isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'
             }`
           }

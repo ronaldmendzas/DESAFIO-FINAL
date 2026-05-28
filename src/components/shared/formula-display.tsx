@@ -21,7 +21,7 @@ export function FormulaDisplay({ latex, label, className = '' }: Props) {
   }, [latex])
 
   return (
-    <div className={`bg-white border border-forest-border rounded-lg p-4 relative overflow-hidden ${className}`}>
+    <div className={`bg-white border border-border rounded-lg p-4 transition-colors duration-200 hover:border-forest-border ${className}`}>
       {label && (
         <p className="text-[11px] text-text-dim mb-2 font-mono">{label}</p>
       )}

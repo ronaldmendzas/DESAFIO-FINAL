@@ -63,10 +63,10 @@ export function HomePage() {
             >
               <Link
                 to={mod.to}
-                className="group block animated-border animated-border-slow p-4"
+                className="group block animated-border animated-border-slow p-4 transition-all duration-300 hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-2.5">
-                  <mod.icon className="w-4 h-4 text-text-dim group-hover:text-forest transition-colors mt-0.5" />
+                  <mod.icon className="w-4 h-4 text-text-dim group-hover:text-forest group-hover:scale-110 transition-all duration-200 mt-0.5" />
                   <div>
                     <h3 className="text-[13px] font-medium text-text">{mod.title}</h3>
                     <p className="text-[11px] text-text-dim mt-0.5">{mod.description}</p>

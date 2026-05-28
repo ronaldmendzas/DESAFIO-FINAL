@@ -1,54 +1,43 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import {cn} from '@/lib/utils'
+
+type Row = Record<string, unknown>
 
 type Props = {
-  headers: string[]
-  rows: (string | number)[][]
-  highlightLast?: boolean
-  maxHeight?: string
+  headers: { key: string; label: string }[]
+  rows: Row[]
+  highlightLastRow?: boolean
+  className?: string
 }
 
-export function IterationTable({ headers, rows, highlightLast = true, maxHeight = '400px' }: Props) {
+export function IterationTable({ headers, rows, highlightLastRow = false, className = '' }: Props) {
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
-      <div className="overflow-auto" style={{ maxHeight }}>
-        <Table>
-          <TableHeader>
-            <TableRow className="border-b border-border hover:bg-transparent">
-              {headers.map((header) => (
-                <TableHead key={header} className="text-[10px] text-text-dim font-mono">
-                  {header}
-                </TableHead>
+    <div className={`overflow-x-auto ${className}`}>
+      <table className="w-full text-[12px]">
+        <thead>
+          <tr className="border-b border-border">
+            {headers.map(h => (
+              <th key={h.key} className="py-2.5 px-3 text-left text-text-dim font-medium whitespace-nowrap hover:text-forest transition-colors duration-200">{h.label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr
+              key={i}
+              className={cn(
+                'border-b border-border/50 transition-colors duration-150 hover:bg-surface',
+                highlightLastRow && i === rows.length - 1 && 'bg-forest-bg font-medium'
+              )}
+            >
+              {headers.map(h => (
+                <td key={h.key} className="py-2 px-3 font-mono text-text whitespace-nowrap">
+                  {typeof row[h.key] === 'number' ? (row[h.key] as number).toFixed(6) : String(row[h.key] ?? '')}
+                </td>
               ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.map((row, i) => {
-              const isLast = i === rows.length - 1
-              return (
-                <TableRow
-                  key={i}
-                  className={`border-b border-border/40 font-mono text-[12px] ${
-                    isLast && highlightLast ? 'bg-forest-bg text-forest font-medium' : 'text-text-secondary'
-                  }`}
-                >
-                  {row.map((cell, j) => (
-                    <TableCell key={j} className="py-1.5">
-                      {typeof cell === 'number' ? cell.toFixed(6) : cell}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </div>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }
