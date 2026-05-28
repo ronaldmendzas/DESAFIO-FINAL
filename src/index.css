@@ -74,11 +74,6 @@ input[type="number"]::-webkit-outer-spin-button {
   100% { transform: translateX(100%); }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
 @property --gradient-angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -95,28 +90,19 @@ input[type="number"]::-webkit-outer-spin-button {
 .animated-border::before {
   content: '';
   position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: conic-gradient(from var(--gradient-angle, 0deg), #01231C, #1A4D3E, #3A8B6A, #1A4D3E, #01231C);
-  z-index: -1;
-  animation: border-spin 3s linear infinite;
-}
-
-.animated-border::after {
-  content: '';
-  position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: white;
+  padding: 1px;
+  background: conic-gradient(from var(--gradient-angle, 0deg), #01231C, #1A4D3E, #4AB88A, #1A4D3E, #01231C);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-spin 4s linear infinite;
   z-index: -1;
 }
 
 .animated-border-slow::before {
-  animation: border-spin 6s linear infinite;
-}
-
-.animated-border-fast::before {
-  animation: border-spin 2s linear infinite;
+  animation: border-spin 8s linear infinite;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
