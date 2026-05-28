@@ -1,21 +1,65 @@
+import { useState } from 'react'
+import { motion } from 'motion/react'
+import { OdesForm } from './odes-form'
+import { OdesResults } from './odes-results'
+import { useOdes } from '@/hooks/use-odes'
+import { FormulaDisplay } from '@/components/shared/formula-display'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import type { OdeMethod } from '@/types/odes'
+
+const FORMULAS: Record<string, string> = {
+  euler: "y_{n+1} = y_n + h \\cdot f(t_n, y_n)",
+  heun: "y_{n+1} = y_n + \\frac{h}{2}[f(t_n,y_n) + f(t_{n+1}, \\tilde{y}_{n+1})]",
+  rk4: "y_{n+1} = y_n + \\frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)",
+}
+
 export function OdesPage() {
+  const { results, isCalculating, error, calculate, reset } = useOdes()
+  const [activeMethod, setActiveMethod] = useState<OdeMethod>('euler')
+
+  const handleCalculate = (data: {
+    fExpression: string
+    t0: number
+    y0: number
+    tFinal: number
+    h: number
+    method: OdeMethod
+  }) => {
+    calculate(data)
+  }
+
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-sans text-2xl font-light text-ghost-white">
-          Ecuaciones Diferenciales Ordinarias
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+        <p className="text-[11px] text-forest font-mono">05</p>
+        <h1 className="text-xl font-semibold text-text mt-0.5 tracking-tight">
+          Ecuaciones Diferenciales
         </h1>
-        <p className="text-mist text-[14px] mt-2 leading-relaxed">
-          Vaciado crítico de reservas de carburantes y difusión de descontento social. Simulación
-          de evolución temporal con Euler, Heun y RK4.
+        <p className="text-text-secondary text-[13px] mt-1.5 leading-relaxed">
+          Reserva de productos que se agota con el tiempo. Modelado con EDOs de primer orden y métodos numéricos.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="bg-deep-night border border-subtle-edge rounded-lg p-8 text-center">
-        <p className="text-mist font-mono text-[13px]">
-          Módulo en construcción. Los algoritmos se implementarán en el Sprint 5.
-        </p>
-      </div>
+      <Tabs value={activeMethod} onValueChange={(v) => setActiveMethod(v as OdeMethod)}>
+        <TabsList className="bg-surface border border-border h-auto p-0.5 flex-wrap gap-0.5">
+          <TabsTrigger value="euler" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">Euler</TabsTrigger>
+          <TabsTrigger value="heun" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">Heun</TabsTrigger>
+          <TabsTrigger value="rk4" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">RK4</TabsTrigger>
+        </TabsList>
+
+        {Object.entries(FORMULAS).map(([method, formula]) => (
+          <TabsContent key={method} value={method} className="mt-6 space-y-6">
+            <FormulaDisplay latex={formula} label={method} />
+            <div className="bg-white border border-border rounded-lg p-5">
+              <OdesForm onCalculate={handleCalculate} onReset={reset} isCalculating={isCalculating} />
+            </div>
+            {error && (
+              <p className="text-red text-[13px] font-mono">{error}</p>
+            )}
+            <OdesResults results={results} />
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   )
 }
