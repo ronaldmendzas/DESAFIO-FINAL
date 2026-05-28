@@ -1,0 +1,5 @@
+export { jacobi } from './jacobi'
+export { gaussSeidel } from './gauss-seidel'
+export { sor } from './sor'
+export { luDecomposition } from './lu'
+export { conjugateGradient } from './conjugate-gradient'
