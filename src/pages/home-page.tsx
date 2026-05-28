@@ -1,8 +1,7 @@
 import { Calculator, Activity, TrendingUp, AreaChart, GitGraph } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { ShimmerButton } from '@/components/ui/shimmer-button'
-import { BorderBeam } from '@/components/ui/border-beam'
+import { GodButton } from '@/components/shared/god-button'
 
 const modules = [
   { to: '/sistemas-lineales', title: 'Sistemas Lineales', description: 'Jacobi, Gauss-Seidel, SOR, LU, Gradiente Conjugado', icon: Calculator },
@@ -47,16 +46,7 @@ export function HomePage() {
           className="mt-6"
         >
           <Link to="/sistemas-lineales">
-            <ShimmerButton
-              shimmerColor="#1A4D3E"
-              shimmerSize="0.05em"
-              shimmerDuration="3s"
-              borderRadius="6px"
-              background="#01231C"
-              className="px-5 py-2 text-[13px] font-medium"
-            >
-              Comenzar
-            </ShimmerButton>
+            <GodButton>Comenzar</GodButton>
           </Link>
         </motion.div>
       </section>
@@ -73,9 +63,8 @@ export function HomePage() {
             >
               <Link
                 to={mod.to}
-                className="group block bg-white border border-border rounded-lg p-4 transition-all hover:border-forest-border relative overflow-hidden"
+                className="group block animated-border animated-border-slow p-4"
               >
-                <BorderBeam size={30} duration={10} colorFrom="#01231C" colorTo="#1A4D3E" borderWidth={1} />
                 <div className="flex items-start gap-2.5">
                   <mod.icon className="w-4 h-4 text-text-dim group-hover:text-forest transition-colors mt-0.5" />
                   <div>
@@ -89,7 +78,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-border pt-6">
+      <section className="animated-border animated-border-slow p-6">
         <p className="text-[13px] text-text-secondary leading-relaxed max-w-lg">
           En el contexto actual, el país enfrenta problemas de abastecimiento, transporte,
           precios y conflicto social. Este proyecto utiliza métodos numéricos para modelar

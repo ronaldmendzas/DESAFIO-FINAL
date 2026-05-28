@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { ShimmerButton } from '@/components/ui/shimmer-button'
+import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -219,25 +219,12 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
       )}
 
       <div className="flex items-center gap-3 pt-1">
-        <ShimmerButton
-          type="submit"
-          disabled={isCalculating}
-          shimmerColor="#1A4D3E"
-          shimmerSize="0.04em"
-          shimmerDuration="2s"
-          borderRadius="6px"
-          background="#01231C"
-          className="px-5 py-2 text-[13px] font-medium disabled:opacity-40"
-        >
+        <GodButton type="submit" disabled={isCalculating}>
           {isCalculating ? 'Calculando...' : 'Calcular'}
-        </ShimmerButton>
-        <button
-          type="button"
-          onClick={handleReset}
-          className="px-4 py-1.5 text-text-secondary text-[13px] hover:text-text transition-colors"
-        >
+        </GodButton>
+        <GodButton type="button" variant="secondary" onClick={handleReset}>
           Limpiar
-        </button>
+        </GodButton>
       </div>
     </motion.form>
   )
