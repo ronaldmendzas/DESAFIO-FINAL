@@ -3,7 +3,6 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 type Method = {
   id: string
   label: string
-  description?: string
 }
 
 type Props = {
@@ -21,7 +20,7 @@ export function MethodSelector({ methods, selected, onSelect, children }: Props)
           <TabsTrigger
             key={method.id}
             value={method.id}
-            className="text-[12px] uppercase tracking-wider font-mono data-[state=active]:bg-electric-cyan data-[state=active]:text-void-black data-[state=active]:shadow-[0_0_12px_rgba(6,214,160,0.3)]"
+            className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white"
           >
             {method.label}
           </TabsTrigger>
@@ -32,3 +31,4 @@ export function MethodSelector({ methods, selected, onSelect, children }: Props)
   )
 }
 
+export { TabsContent as MethodContent } from '@/components/ui/tabs'

@@ -111,7 +111,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
             Método
           </Label>
           <Select value={method} onValueChange={(v) => setMethod(v as LinearSystemMethod)}>
-            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-electric-cyan focus:ring-electric-cyan/20">
+            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-mist focus:ring-mist/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-deep-night border-subtle-edge">
@@ -129,7 +129,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
             Tamaño de matriz
           </Label>
           <Select value={String(size)} onValueChange={(v) => handleSizeChange(Number(v) as 3 | 4 | 5)}>
-            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-electric-cyan focus:ring-electric-cyan/20">
+            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-mist focus:ring-mist/20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-deep-night border-subtle-edge">
@@ -154,7 +154,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
                   type="number"
                   value={val}
                   onChange={(e) => handleMatrixChange(i, j, e.target.value)}
-                  className="bg-deep-night border-subtle-edge font-mono text-[13px] text-center h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+                  className="bg-deep-night border-subtle-edge font-mono text-[13px] text-center h-9 focus:border-mist focus:ring-mist/20"
                 />
               ))
             )}
@@ -174,7 +174,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
                 type="number"
                 value={val}
                 onChange={(e) => handleVectorChange(i, e.target.value)}
-                className="bg-deep-night border-subtle-edge font-mono text-[13px] text-center h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+                className="bg-deep-night border-subtle-edge font-mono text-[13px] text-center h-9 focus:border-mist focus:ring-mist/20"
               />
             ))}
           </div>
@@ -191,7 +191,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
               type="number"
               value={tolerance}
               onChange={(e) => setTolerance(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-mist focus:ring-mist/20"
               step="0.000001"
             />
           </div>
@@ -203,7 +203,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
               type="number"
               value={maxIterations}
               onChange={(e) => setMaxIterations(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-mist focus:ring-mist/20"
               min="1"
               max="10000"
             />
@@ -220,7 +220,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
             type="number"
             value={omega}
             onChange={(e) => setOmega(e.target.value)}
-            className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-electric-cyan focus:ring-electric-cyan/20"
+            className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-mist focus:ring-mist/20"
             step="0.1"
             min="0.1"
             max="2"
@@ -232,7 +232,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
         <Button
           type="submit"
           disabled={isCalculating}
-          className="bg-electric-cyan text-void-black font-mono text-[13px] uppercase tracking-[0.2em] hover:bg-electric-cyan/90 hover:shadow-[0_0_20px_rgba(6,214,160,0.4)] active:scale-[0.97] transition-all px-8 h-10"
+          className="bg-ghost-white text-void-black font-mono text-[13px] uppercase tracking-[0.15em] hover:bg-mist transition-colors active:scale-[0.98] px-8 h-10"
         >
           {isCalculating ? 'Calculando...' : 'Calcular'}
         </Button>

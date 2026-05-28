@@ -3,7 +3,6 @@ import { ResultCard } from '@/components/shared/result-card'
 import { IterationTable } from '@/components/shared/iteration-table'
 import { InterpretationCard } from '@/components/shared/interpretation-card'
 import { FormulaDisplay } from '@/components/shared/formula-display'
-import { Badge } from '@/components/ui/badge'
 import { TrendingUp, Clock, Hash, CheckCircle, XCircle } from 'lucide-react'
 import {
   LineChart,
@@ -39,35 +38,28 @@ export function LinearSystemsResults({ results }: Props) {
   if (results.length === 0) return null
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {results.map((result, idx) => (
-        <div key={idx} className="space-y-6 animate-fade-up">
+        <div key={idx} className="space-y-6">
           <div className="flex items-center gap-3">
-            <h3 className="font-mono text-[15px] font-semibold text-electric-cyan tracking-wide">
-              {METHOD_NAMES[result.method] || result.method}
+            <h3 className="font-mono text-[14px] font-semibold text-ghost-white">
+              {METHOD_NAMES[result.method]}
             </h3>
-            <Badge
-              variant={result.converged ? 'default' : 'destructive'}
-              className={`font-mono text-[11px] ${
-                result.converged
-                  ? 'bg-neon-mint/10 text-neon-mint border-neon-mint/30'
-                  : 'bg-signal-red/10 text-signal-red border-signal-red/30'
-              }`}
-            >
-              {result.converged ? (
-                <><CheckCircle className="w-3 h-3 mr-1" /> Convergió</>
-              ) : (
-                <><XCircle className="w-3 h-3 mr-1" /> No convergió</>
-              )}
-            </Badge>
+            <span className={`inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded ${
+              result.converged
+                ? 'bg-charcoal text-neon-mint'
+                : 'bg-charcoal text-signal-red'
+            }`}>
+              {result.converged ? <><CheckCircle className="w-3 h-3" /> Convergió</> : <><XCircle className="w-3 h-3" /> No convergió</>}
+            </span>
           </div>
 
           <FormulaDisplay
             latex={FORMULAS[result.method] || ''}
-            label={`Método: ${METHOD_NAMES[result.method]}`}
+            label={METHOD_NAMES[result.method]}
           />
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {result.result.map((val, i) => (
               <ResultCard
                 key={i}
@@ -79,54 +71,34 @@ export function LinearSystemsResults({ results }: Props) {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <ResultCard
-              label="Iteraciones"
-              value={result.iterations.length}
-              icon={Hash}
-              variant="default"
-              decimals={0}
-            />
-            <ResultCard
-              label="Tiempo"
-              value={result.executionTime}
-              icon={Clock}
-              variant="default"
-              decimals={3}
-              suffix="ms"
-            />
-            <ResultCard
-              label="Error final"
-              value={result.iterations[result.iterations.length - 1]?.error ?? 0}
-              icon={TrendingUp}
-              variant="default"
-            />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <ResultCard label="Iteraciones" value={result.iterations.length} icon={Hash} variant="default" decimals={0} />
+            <ResultCard label="Tiempo" value={result.executionTime} icon={Clock} variant="default" decimals={3} suffix="ms" />
+            <ResultCard label="Error final" value={result.iterations[result.iterations.length - 1]?.error ?? 0} icon={TrendingUp} variant="default" />
           </div>
 
           {result.decomposition && (
-            <div className="space-y-4">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium">
-                Descomposición LU
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-void-black border border-subtle-edge rounded-lg p-4">
-                  <p className="font-mono text-[11px] text-electric-cyan uppercase tracking-wider mb-2">L</p>
+            <div className="space-y-3">
+              <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono">Descomposición LU</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-void-black border border-subtle-edge rounded-md p-3">
+                  <p className="font-mono text-[11px] text-dim uppercase tracking-wider mb-2">L</p>
                   <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(50px, 1fr))` }}>
                     {result.decomposition.L.map((row, i) =>
                       row.map((val, j) => (
-                        <span key={`${i}-${j}`} className="font-mono text-[13px] text-center text-ghost-white">
+                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">
                           {val.toFixed(4)}
                         </span>
                       ))
                     )}
                   </div>
                 </div>
-                <div className="bg-void-black border border-subtle-edge rounded-lg p-4">
-                  <p className="font-mono text-[11px] text-electric-cyan uppercase tracking-wider mb-2">U</p>
+                <div className="bg-void-black border border-subtle-edge rounded-md p-3">
+                  <p className="font-mono text-[11px] text-dim uppercase tracking-wider mb-2">U</p>
                   <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(50px, 1fr))` }}>
                     {result.decomposition.U.map((row, i) =>
                       row.map((val, j) => (
-                        <span key={`${i}-${j}`} className="font-mono text-[13px] text-center text-ghost-white">
+                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">
                           {val.toFixed(4)}
                         </span>
                       ))
@@ -138,42 +110,18 @@ export function LinearSystemsResults({ results }: Props) {
           )}
 
           {result.iterations.length > 1 && (
-            <div className="space-y-4">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium">
-                Convergencia
-              </p>
-              <div className="bg-void-black border border-subtle-edge rounded-lg p-4">
-                <ResponsiveContainer width="100%" height={300}>
+            <div className="space-y-3">
+              <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono">Convergencia</p>
+              <div className="bg-void-black border border-subtle-edge rounded-md p-4">
+                <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={result.iterations}>
-                    <XAxis
-                      dataKey="iteration"
-                      stroke="#71717A"
-                      tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                      label={{ value: 'Iteración', position: 'insideBottom', offset: -5, fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                    />
-                    <YAxis
-                      stroke="#71717A"
-                      tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                      label={{ value: 'Error', angle: -90, position: 'insideLeft', fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                    />
+                    <XAxis dataKey="iteration" stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} />
+                    <YAxis stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: '#18181B',
-                        border: '1px solid #27272A',
-                        borderRadius: '8px',
-                        fontFamily: 'Geist Mono',
-                        fontSize: 13,
-                      }}
-                      labelStyle={{ color: '#06D6A0' }}
+                      contentStyle={{ backgroundColor: '#18181B', border: '1px solid #27272A', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }}
+                      labelStyle={{ color: '#E4E4E7' }}
                     />
-                    <Line
-                      type="monotone"
-                      dataKey="error"
-                      stroke="#06D6A0"
-                      strokeWidth={2}
-                      dot={{ fill: '#06D6A0', r: 3 }}
-                      name="Error"
-                    />
+                    <Line type="monotone" dataKey="error" stroke="#71717A" strokeWidth={1.5} dot={{ fill: '#71717A', r: 2 }} name="Error" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -183,11 +131,7 @@ export function LinearSystemsResults({ results }: Props) {
           {result.iterations.length > 0 && (
             <IterationTable
               headers={['Iteración', ...result.result.map((_, i) => `x${i + 1}`), 'Error']}
-              rows={result.iterations.map((iter) => [
-                iter.iteration,
-                ...iter.values,
-                iter.error,
-              ])}
+              rows={result.iterations.map((iter) => [iter.iteration, ...iter.values, iter.error])}
             />
           )}
 
@@ -195,57 +139,27 @@ export function LinearSystemsResults({ results }: Props) {
             title="Interpretación"
             content={
               result.converged
-                ? `El método de ${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones con un error final de ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}. La solución indica las cantidades que deben enviarse a cada zona para satisfacer las demandas del sistema de abastecimiento.`
-                : `El método de ${METHOD_NAMES[result.method]} no convergió después de ${result.iterations.length} iteraciones. Esto puede indicar que la matriz no es diagonalmente dominante o que el sistema está mal condicionado. Considere cambiar de método o ajustar los parámetros.`
+                ? `El método de ${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones con un error final de ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}. La solución indica las cantidades que deben enviarse a cada zona.`
+                : `El método de ${METHOD_NAMES[result.method]} no convergió después de ${result.iterations.length} iteraciones. Considere cambiar de método o ajustar los parámetros.`
             }
           />
         </div>
       ))}
 
       {results.length > 1 && (
-        <div className="space-y-4">
-          <h3 className="font-mono text-[15px] font-semibold text-electric-cyan tracking-wide">
-            Comparación de métodos
-          </h3>
-          <div className="bg-void-black border border-subtle-edge rounded-lg p-4">
-            <ResponsiveContainer width="100%" height={300}>
+        <div className="space-y-3">
+          <h3 className="font-mono text-[14px] font-semibold text-ghost-white">Comparación de métodos</h3>
+          <div className="bg-void-black border border-subtle-edge rounded-md p-4">
+            <ResponsiveContainer width="100%" height={280}>
               <LineChart>
-                <XAxis
-                  dataKey="iteration"
-                  stroke="#71717A"
-                  tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                  label={{ value: 'Iteración', position: 'insideBottom', offset: -5, fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                  type="number"
-                  allowDuplicatedCategory={false}
-                />
-                <YAxis
-                  stroke="#71717A"
-                  tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                  label={{ value: 'Error', angle: -90, position: 'insideLeft', fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#18181B',
-                    border: '1px solid #27272A',
-                    borderRadius: '8px',
-                    fontFamily: 'Geist Mono',
-                    fontSize: 13,
-                  }}
-                  labelStyle={{ color: '#06D6A0' }}
-                />
+                <XAxis dataKey="iteration" stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} type="number" allowDuplicatedCategory={false} />
+                <YAxis stroke="#3F3F46" tick={{ fill: '#71717A', fontSize: 11, fontFamily: 'Geist Mono' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#18181B', border: '1px solid #27272A', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }} labelStyle={{ color: '#E4E4E7' }} />
                 <Legend />
                 {results.map((r, i) => {
-                  const colors = ['#06D6A0', '#F5A623', '#A78BFA', '#EF4444', '#34D399']
+                  const colors = ['#E4E4E7', '#F5A623', '#A78BFA', '#EF4444', '#34D399']
                   return (
-                    <Line
-                      key={i}
-                      data={r.iterations}
-                      type="monotone"
-                      dataKey="error"
-                      stroke={colors[i % colors.length]}
-                      strokeWidth={2}
-                      name={METHOD_NAMES[r.method]}
-                    />
+                    <Line key={i} data={r.iterations} type="monotone" dataKey="error" stroke={colors[i % colors.length]} strokeWidth={1.5} name={METHOD_NAMES[r.method]} />
                   )
                 })}
               </LineChart>

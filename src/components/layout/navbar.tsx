@@ -17,19 +17,19 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 h-14 border-b border-subtle-edge bg-void-black/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 h-12 border-b border-subtle-edge bg-void-black/90 backdrop-blur-sm">
       <div className="flex items-center justify-between h-full px-4 lg:px-6">
         <div className="flex items-center gap-4">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button className="w-8 h-8 flex items-center justify-center rounded-md text-mist hover:text-ghost-white hover:bg-charcoal transition-colors">
+              <button className="w-8 h-8 flex items-center justify-center rounded-md text-mist hover:text-ghost-white transition-colors">
                 <Menu className="w-5 h-5" />
               </button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[260px] bg-deep-night border-r border-subtle-edge p-0">
               <div className="p-6 flex items-center justify-between">
-                <span className="text-electric-cyan font-mono text-lg tracking-widest font-bold glow-cyan-text">
-                  夜間計算
+                <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">
+                  YAKAN
                 </span>
                 <button onClick={() => setOpen(false)} className="text-mist hover:text-ghost-white">
                   <X className="w-5 h-5" />
@@ -40,10 +40,10 @@ export function Navbar() {
                   to="/"
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-all ${
+                    `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${
                       isActive
-                        ? 'text-electric-cyan bg-electric-cyan/10'
-                        : 'text-mist hover:text-ghost-white hover:bg-charcoal'
+                        ? 'text-ghost-white bg-charcoal'
+                        : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
                     }`
                   }
                 >
@@ -51,7 +51,7 @@ export function Navbar() {
                   Inicio
                 </NavLink>
                 <div className="h-px bg-subtle-edge my-2" />
-                <p className="px-3 mb-1 text-[10px] uppercase tracking-[0.2em] text-dim font-medium">
+                <p className="px-3 mb-1 text-[10px] uppercase tracking-[0.15em] text-dim">
                   Módulos
                 </p>
                 {modules.map(({ to, label, icon: Icon }) => (
@@ -60,10 +60,10 @@ export function Navbar() {
                     to={to}
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-all ${
+                      `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${
                         isActive
-                          ? 'text-electric-cyan bg-electric-cyan/10'
-                          : 'text-mist hover:text-ghost-white hover:bg-charcoal'
+                          ? 'text-ghost-white bg-charcoal'
+                          : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
                       }`
                     }
                   >
@@ -76,10 +76,10 @@ export function Navbar() {
                   to="/conclusiones"
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-all ${
+                    `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-colors ${
                       isActive
-                        ? 'text-electric-cyan bg-electric-cyan/10'
-                        : 'text-mist hover:text-ghost-white hover:bg-charcoal'
+                        ? 'text-ghost-white bg-charcoal'
+                        : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
                     }`
                   }
                 >
@@ -90,16 +90,14 @@ export function Navbar() {
             </SheetContent>
           </Sheet>
 
-          <NavLink to="/" className="hidden lg:flex items-center gap-2">
-            <span className="text-electric-cyan font-mono text-sm tracking-widest font-bold glow-cyan-text">
-              夜間計算
+          <NavLink to="/" className="hidden lg:block">
+            <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">
+              YAKAN
             </span>
           </NavLink>
         </div>
 
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
       </div>
     </header>
   )

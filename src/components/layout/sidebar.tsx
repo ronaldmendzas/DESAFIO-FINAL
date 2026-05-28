@@ -11,15 +11,15 @@ const modules = [
 
 export function Sidebar() {
   return (
-    <aside className="hidden lg:flex flex-col w-[260px] min-h-screen border-r border-subtle-edge bg-deep-night">
+    <aside className="hidden lg:flex flex-col w-[240px] min-h-screen border-r border-subtle-edge bg-deep-night">
       <div className="p-6">
-        <NavLink to="/" className="flex items-center gap-3 group">
-          <span className="text-electric-cyan font-mono text-lg tracking-widest font-bold glow-cyan-text">
-            夜間計算
+        <NavLink to="/" className="flex items-center gap-2">
+          <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">
+            YAKAN
           </span>
         </NavLink>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-mist mt-1 ml-0.5">
-          Yakan Keisan
+        <p className="text-[10px] tracking-[0.2em] text-dim mt-0.5">
+          Métodos Numéricos
         </p>
       </div>
 
@@ -28,10 +28,10 @@ export function Sidebar() {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-all ${
+              `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
                 isActive
-                  ? 'text-electric-cyan bg-electric-cyan/10 border-l-2 border-electric-cyan'
-                  : 'text-mist hover:text-ghost-white hover:bg-charcoal'
+                  ? 'text-ghost-white bg-charcoal'
+                  : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
               }`
             }
           >
@@ -42,7 +42,7 @@ export function Sidebar() {
 
         <div className="h-px bg-subtle-edge my-3" />
 
-        <p className="px-3 mb-2 text-[10px] uppercase tracking-[0.2em] text-dim font-medium">
+        <p className="px-3 mb-2 text-[10px] uppercase tracking-[0.15em] text-dim">
           Módulos
         </p>
 
@@ -52,10 +52,10 @@ export function Sidebar() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-all ${
+                `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
                   isActive
-                    ? 'text-electric-cyan bg-electric-cyan/10 border-l-2 border-electric-cyan'
-                    : 'text-mist hover:text-ghost-white hover:bg-charcoal'
+                    ? 'text-ghost-white bg-charcoal'
+                    : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
                 }`
               }
             >
@@ -70,10 +70,10 @@ export function Sidebar() {
         <NavLink
           to="/conclusiones"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] transition-all ${
+            `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
               isActive
-                ? 'text-electric-cyan bg-electric-cyan/10 border-l-2 border-electric-cyan'
-                : 'text-mist hover:text-ghost-white hover:bg-charcoal'
+                ? 'text-ghost-white bg-charcoal'
+                : 'text-mist hover:text-ghost-white hover:bg-charcoal/50'
             }`
           }
         >

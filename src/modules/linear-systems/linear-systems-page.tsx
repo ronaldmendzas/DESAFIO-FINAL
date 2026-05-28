@@ -32,10 +32,10 @@ export function LinearSystemsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-[11px] uppercase tracking-[0.3em] text-electric-cyan font-mono font-medium">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono">
           Módulo 01
         </p>
-        <h1 className="font-sans text-2xl font-light text-ghost-white mt-1">
+        <h1 className="font-mono text-xl font-semibold text-ghost-white mt-1">
           Sistemas de Ecuaciones Lineales
         </h1>
         <p className="text-mist text-[14px] mt-2 leading-relaxed max-w-2xl">
@@ -46,46 +46,28 @@ export function LinearSystemsPage() {
 
       <Tabs value={activeMethod} onValueChange={(v) => setActiveMethod(v as LinearSystemMethod)}>
         <TabsList className="bg-deep-night border border-subtle-edge h-auto p-1 flex-wrap">
-          <TabsTrigger
-            value="jacobi"
-            className="text-[12px] uppercase tracking-wider font-mono data-[state=active]:bg-electric-cyan data-[state=active]:text-void-black"
-          >
+          <TabsTrigger value="jacobi" className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white">
             Jacobi
           </TabsTrigger>
-          <TabsTrigger
-            value="gauss-seidel"
-            className="text-[12px] uppercase tracking-wider font-mono data-[state=active]:bg-electric-cyan data-[state=active]:text-void-black"
-          >
+          <TabsTrigger value="gauss-seidel" className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white">
             Gauss-Seidel
           </TabsTrigger>
-          <TabsTrigger
-            value="sor"
-            className="text-[12px] uppercase tracking-wider font-mono data-[state=active]:bg-electric-cyan data-[state=active]:text-void-black"
-          >
+          <TabsTrigger value="sor" className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white">
             SOR
           </TabsTrigger>
-          <TabsTrigger
-            value="lu"
-            className="text-[12px] uppercase tracking-wider font-mono data-[state=active]:bg-electric-cyan data-[state=active]:text-void-black"
-          >
+          <TabsTrigger value="lu" className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white">
             LU
           </TabsTrigger>
-          <TabsTrigger
-            value="conjugate-gradient"
-            className="text-[12px] uppercase tracking-wider font-mono data-[state=active]:bg-electric-cyan data-[state=active]:text-void-black"
-          >
+          <TabsTrigger value="conjugate-gradient" className="text-[12px] font-mono data-[state=active]:bg-charcoal data-[state=active]:text-ghost-white">
             Grad. Conjugado
           </TabsTrigger>
         </TabsList>
 
         {Object.entries(FORMULAS).map(([method, formula]) => (
           <TabsContent key={method} value={method} className="mt-6 space-y-6">
-            <FormulaDisplay
-              latex={formula}
-              label="Método seleccionado"
-            />
+            <FormulaDisplay latex={formula} label={method} />
 
-            <div className="bg-deep-night border border-subtle-edge rounded-lg p-6">
+            <div className="bg-deep-night border border-subtle-edge rounded-md p-6">
               <LinearSystemsForm
                 onCalculate={handleCalculate}
                 onReset={reset}
@@ -94,7 +76,7 @@ export function LinearSystemsPage() {
             </div>
 
             {error && (
-              <div className="bg-signal-red/10 border border-signal-red/30 rounded-lg p-4">
+              <div className="bg-charcoal border border-subtle-edge rounded-md p-4">
                 <p className="text-signal-red font-mono text-[13px]">{error}</p>
               </div>
             )}

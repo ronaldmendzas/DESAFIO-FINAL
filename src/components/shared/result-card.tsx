@@ -12,20 +12,27 @@ type Props = {
 }
 
 const variantStyles: Record<Variant, string> = {
-  default: 'border-l-electric-cyan text-electric-cyan',
-  success: 'border-l-neon-mint text-neon-mint',
-  warning: 'border-l-warm-amber text-warm-amber',
-  danger: 'border-l-signal-red text-signal-red',
+  default: 'border-l-ghost-white',
+  success: 'border-l-neon-mint',
+  warning: 'border-l-warm-amber',
+  danger: 'border-l-signal-red',
+}
+
+const valueStyles: Record<Variant, string> = {
+  default: 'text-ghost-white',
+  success: 'text-neon-mint',
+  warning: 'text-warm-amber',
+  danger: 'text-signal-red',
 }
 
 export function ResultCard({ label, value, icon: Icon, variant = 'default', decimals = 6, suffix }: Props) {
   return (
-    <div className={`bg-deep-night border border-subtle-edge border-l-3 rounded-lg p-5 ${variantStyles[variant]}`}>
-      <p className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 flex items-center gap-2">
+    <div className={`bg-deep-night border border-subtle-edge border-l-2 rounded-md p-4 ${variantStyles[variant]}`}>
+      <p className="text-[11px] uppercase tracking-[0.15em] text-mist font-medium mb-1 flex items-center gap-2">
         {Icon && <Icon className="w-3.5 h-3.5" />}
         {label}
       </p>
-      <p className="font-mono text-2xl font-bold glow-cyan-text">
+      <p className={`font-mono text-xl font-semibold ${valueStyles[variant]}`}>
         {value.toFixed(decimals)}
         {suffix && <span className="text-sm ml-1 text-mist">{suffix}</span>}
       </p>

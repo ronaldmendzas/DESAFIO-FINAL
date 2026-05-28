@@ -16,13 +16,13 @@ type Props = {
 
 export function IterationTable({ headers, rows, highlightLast = true, maxHeight = '400px' }: Props) {
   return (
-    <div className="bg-void-black border border-subtle-edge rounded-lg overflow-hidden">
+    <div className="bg-void-black border border-subtle-edge rounded-md overflow-hidden">
       <div className="overflow-auto" style={{ maxHeight }}>
         <Table>
           <TableHeader>
             <TableRow className="border-b border-subtle-edge hover:bg-transparent">
               {headers.map((header) => (
-                <TableHead key={header} className="text-[11px] uppercase tracking-[0.15em] text-mist font-medium font-mono">
+                <TableHead key={header} className="text-[11px] uppercase tracking-[0.12em] text-dim font-medium font-mono">
                   {header}
                 </TableHead>
               ))}
@@ -36,9 +36,9 @@ export function IterationTable({ headers, rows, highlightLast = true, maxHeight 
                   key={i}
                   className={`border-b border-subtle-edge/50 font-mono text-[13px] ${
                     isLast && highlightLast
-                      ? 'bg-electric-cyan/5 text-electric-cyan'
-                      : 'text-ghost-white'
-                  } ${i % 2 === 0 ? 'bg-void-black' : 'bg-deep-night' }`}
+                      ? 'bg-charcoal text-ghost-white'
+                      : 'text-mist'
+                  }`}
                 >
                   {row.map((cell, j) => (
                     <TableCell key={j} className="py-2">
