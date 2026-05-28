@@ -31,7 +31,6 @@ export function conjugateGradient(
   tolerance: number,
   maxIterations: number,
 ): LinearSystemResult {
-  const n = matrix.length
   let x = [...initialVector]
   const iterations: LinearSystemResult['iterations'] = []
   const start = performance.now()

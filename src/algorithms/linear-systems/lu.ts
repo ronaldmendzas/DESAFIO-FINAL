@@ -2,7 +2,7 @@ import type { LinearSystemResult } from '@/types/linear-systems'
 
 function forwardSubstitution(L: number[][], b: number[]): number[] {
   const n = L.length
-  const y = new Array(n).fill(0)
+  const y: number[] = new Array(n).fill(0)
   for (let i = 0; i < n; i++) {
     let sum = 0
     for (let j = 0; j < i; j++) {
@@ -15,7 +15,7 @@ function forwardSubstitution(L: number[][], b: number[]): number[] {
 
 function backwardSubstitution(U: number[][], y: number[]): number[] {
   const n = U.length
-  const x = new Array(n).fill(0)
+  const x: number[] = new Array(n).fill(0)
   for (let i = n - 1; i >= 0; i--) {
     let sum = 0
     for (let j = i + 1; j < n; j++) {
@@ -34,11 +34,10 @@ export function luDecomposition(
   const start = performance.now()
 
   const U = matrix.map(row => [...row])
-  const L = Array.from({ length: n }, (_, i) =>
+  const L: number[][] = Array.from({ length: n }, (_, i) =>
     Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))
   )
 
-  const P = Array.from({ length: n }, (_, i) => i)
   const permVector = [...vector]
 
   for (let k = 0; k < n; k++) {
@@ -52,18 +51,26 @@ export function luDecomposition(
     }
 
     if (maxRow !== k) {
-      ;[U[k], U[maxRow]] = [U[maxRow], U[k]]
-      ;[P[k], P[maxRow]] = [P[maxRow], P[k]]
+      const tempU = U[k]
+      U[k] = U[maxRow]
+      U[maxRow] = tempU
+
+      const tempPV = permVector[k]
+      permVector[k] = permVector[maxRow]
+      permVector[maxRow] = tempPV
+
       for (let j = 0; j < k; j++) {
-        ;[L[k][j], L[maxRow][j]] = [L[maxRow][j], L[k][j]]
+        const tempL = L[k][j]
+        L[k][j] = L[maxRow][j]
+        L[maxRow][j] = tempL
       }
-      ;[permVector[k], permVector[maxRow]] = [permVector[maxRow], permVector[k]]
     }
 
     for (let i = k + 1; i < n; i++) {
-      L[i][k] = U[i][k] / U[k][k]
+      const factor = U[i][k] / U[k][k]
+      L[i][k] = factor
       for (let j = k; j < n; j++) {
-        U[i][j] -= L[i][k] * U[k][j]
+        U[i][j] -= factor * U[k][j]
       }
     }
   }
