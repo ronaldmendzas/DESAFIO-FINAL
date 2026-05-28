@@ -21,13 +21,11 @@ export function FormulaDisplay({ latex, label, className = '' }: Props) {
   }, [latex])
 
   return (
-    <div className={`bg-void-black border border-subtle-edge rounded-md p-5 ${className}`}>
+    <div className={`bg-white border border-forest-border rounded-lg p-4 relative overflow-hidden ${className}`}>
       {label && (
-        <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono mb-3">
-          {label}
-        </p>
+        <p className="text-[11px] text-text-dim mb-2 font-mono">{label}</p>
       )}
-      <div ref={ref} className="text-ghost-white" />
+      <div ref={ref} className="text-text" />
     </div>
   )
 }

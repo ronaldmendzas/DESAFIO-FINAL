@@ -8,18 +8,14 @@ type Props = {
 
 export function InterpretationCard({ title, content, className = '' }: Props) {
   return (
-    <div className={`bg-charcoal/50 border border-subtle-edge rounded-md p-5 ${className}`}>
-      <div className="flex items-start gap-3">
-        <Info className="w-4 h-4 text-mist mt-0.5 shrink-0" />
-        <div>
-          <p className="text-[11px] uppercase tracking-[0.15em] text-mist font-mono font-medium mb-2">
-            {title}
-          </p>
-          <p className="text-ghost-white text-[14px] leading-relaxed">
-            {content}
-          </p>
-        </div>
-      </div>
+    <div className={`bg-forest-bg border-l-2 border-l-forest rounded-r-lg p-4 ${className}`}>
+      <p className="text-[11px] text-forest font-medium mb-1 flex items-center gap-1.5">
+        <Info className="w-3.5 h-3.5" />
+        {title}
+      </p>
+      <p className="text-[14px] text-text leading-relaxed">
+        {content}
+      </p>
     </div>
   )
 }

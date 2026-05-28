@@ -1,9 +1,10 @@
+import { motion } from 'motion/react'
 import type { LinearSystemResult } from '@/types/linear-systems'
 import { ResultCard } from '@/components/shared/result-card'
 import { IterationTable } from '@/components/shared/iteration-table'
 import { InterpretationCard } from '@/components/shared/interpretation-card'
 import { FormulaDisplay } from '@/components/shared/formula-display'
-import { TrendingUp, Clock, Hash, CheckCircle, XCircle } from 'lucide-react'
+import { CheckCircle, XCircle, Hash, Clock } from 'lucide-react'
 import {
   LineChart,
   Line,
@@ -38,58 +39,57 @@ export function LinearSystemsResults({ results }: Props) {
   if (results.length === 0) return null
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       {results.map((result, idx) => (
-        <div key={idx} className="space-y-6">
-          <div className="flex items-center gap-3">
-            <h3 className="font-mono text-[14px] font-semibold text-ghost-white">
+        <motion.div
+          key={idx}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: idx * 0.1 }}
+          className="space-y-5"
+        >
+          <div className="flex items-center gap-2">
+            <h3 className="text-[15px] font-medium text-text">
               {METHOD_NAMES[result.method]}
             </h3>
-            <span className={`inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded ${
-              result.converged
-                ? 'bg-forest-muted text-forest-light'
-                : 'bg-charcoal text-signal-red'
-            }`}>
-              {result.converged ? <><CheckCircle className="w-3 h-3" /> Convergió</> : <><XCircle className="w-3 h-3" /> No convergió</>}
-            </span>
+            {result.converged ? (
+              <span className="text-[11px] text-forest flex items-center gap-1"><CheckCircle className="w-3 h-3" /> convergió</span>
+            ) : (
+              <span className="text-[11px] text-red flex items-center gap-1"><XCircle className="w-3 h-3" /> no convergió</span>
+            )}
           </div>
 
           <FormulaDisplay latex={FORMULAS[result.method] || ''} label={METHOD_NAMES[result.method]} />
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-1">
             {result.result.map((val, i) => (
-              <ResultCard key={i} label={`x${i + 1}`} value={val} variant="default" decimals={6} />
+              <ResultCard key={i} label={`x${i + 1}`} value={val} decimals={6} highlight={idx === 0} />
             ))}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            <ResultCard label="Iteraciones" value={result.iterations.length} icon={Hash} variant="default" decimals={0} />
-            <ResultCard label="Tiempo" value={result.executionTime} icon={Clock} variant="default" decimals={3} suffix="ms" />
-            <ResultCard label="Error final" value={result.iterations[result.iterations.length - 1]?.error ?? 0} icon={TrendingUp} variant="default" />
+          <div className="grid grid-cols-3 gap-x-6 gap-y-1">
+            <ResultCard label="Iteraciones" value={result.iterations.length} icon={Hash} decimals={0} />
+            <ResultCard label="Tiempo" value={result.executionTime} icon={Clock} decimals={3} suffix="ms" />
           </div>
 
           {result.decomposition && (
-            <div className="space-y-3">
-              <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono">Descomposición LU</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="bg-void-black border border-subtle-edge rounded-md p-3">
-                  <p className="font-mono text-[11px] text-dim uppercase tracking-wider mb-2">L</p>
-                  <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(50px, 1fr))` }}>
-                    {result.decomposition.L.map((row, i) =>
-                      row.map((val, j) => (
-                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">{val.toFixed(4)}</span>
-                      ))
-                    )}
+            <div>
+              <p className="text-[11px] text-text-dim mb-2">Descomposición LU</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="border border-border rounded-lg p-3">
+                  <p className="text-[10px] text-text-dim mb-1.5">L</p>
+                  <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(40px, 1fr))` }}>
+                    {result.decomposition.L.flat().map((val, i) => (
+                      <span key={i} className="font-mono text-[11px] text-text-secondary text-center">{val.toFixed(3)}</span>
+                    ))}
                   </div>
                 </div>
-                <div className="bg-void-black border border-subtle-edge rounded-md p-3">
-                  <p className="font-mono text-[11px] text-dim uppercase tracking-wider mb-2">U</p>
-                  <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(50px, 1fr))` }}>
-                    {result.decomposition.U.map((row, i) =>
-                      row.map((val, j) => (
-                        <span key={`${i}-${j}`} className="font-mono text-[12px] text-center text-mist">{val.toFixed(4)}</span>
-                      ))
-                    )}
+                <div className="border border-border rounded-lg p-3">
+                  <p className="text-[10px] text-text-dim mb-1.5">U</p>
+                  <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${result.result.length}, minmax(40px, 1fr))` }}>
+                    {result.decomposition.U.flat().map((val, i) => (
+                      <span key={i} className="font-mono text-[11px] text-text-secondary text-center">{val.toFixed(3)}</span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -97,15 +97,15 @@ export function LinearSystemsResults({ results }: Props) {
           )}
 
           {result.iterations.length > 1 && (
-            <div className="space-y-3">
-              <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono">Convergencia</p>
-              <div className="bg-void-black border border-subtle-edge rounded-md p-4">
-                <ResponsiveContainer width="100%" height={280}>
+            <div>
+              <p className="text-[11px] text-text-dim mb-2">Convergencia</p>
+              <div className="border border-border rounded-lg p-3">
+                <ResponsiveContainer width="100%" height={220}>
                   <LineChart data={result.iterations}>
-                    <XAxis dataKey="iteration" stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} />
-                    <YAxis stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} />
-                    <Tooltip contentStyle={{ backgroundColor: '#141816', border: '1px solid #1E2422', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }} labelStyle={{ color: '#D4D4D4' }} />
-                    <Line type="monotone" dataKey="error" stroke="#1A4D3E" strokeWidth={1.5} dot={{ fill: '#1A4D3E', r: 2 }} name="Error" />
+                    <XAxis dataKey="iteration" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
+                    <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
+                    <Line type="monotone" dataKey="error" stroke="#01231C" strokeWidth={1.5} dot={false} name="Error" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -114,7 +114,7 @@ export function LinearSystemsResults({ results }: Props) {
 
           {result.iterations.length > 0 && (
             <IterationTable
-              headers={['Iteración', ...result.result.map((_, i) => `x${i + 1}`), 'Error']}
+              headers={['#', ...result.result.map((_, i) => `x${i + 1}`), 'error']}
               rows={result.iterations.map((iter) => [iter.iteration, ...iter.values, iter.error])}
             />
           )}
@@ -123,27 +123,29 @@ export function LinearSystemsResults({ results }: Props) {
             title="Interpretación"
             content={
               result.converged
-                ? `El método de ${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones con un error final de ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}. La solución indica las cantidades que deben enviarse a cada zona.`
-                : `El método de ${METHOD_NAMES[result.method]} no convergió después de ${result.iterations.length} iteraciones. Considere cambiar de método o ajustar los parámetros.`
+                ? `${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones (error: ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}). Los valores de x indican las cantidades a distribuir a cada zona.`
+                : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método o ajuste la tolerancia.`
             }
           />
-        </div>
+
+          <div className="border-t border-border" />
+        </motion.div>
       ))}
 
       {results.length > 1 && (
-        <div className="space-y-3">
-          <h3 className="font-mono text-[14px] font-semibold text-ghost-white">Comparación de métodos</h3>
-          <div className="bg-void-black border border-subtle-edge rounded-md p-4">
-            <ResponsiveContainer width="100%" height={280}>
+        <div>
+          <p className="text-[11px] text-text-dim mb-2">Comparación</p>
+          <div className="border border-border rounded-lg p-3">
+            <ResponsiveContainer width="100%" height={220}>
               <LineChart>
-                <XAxis dataKey="iteration" stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} type="number" allowDuplicatedCategory={false} />
-                <YAxis stroke="#3B423E" tick={{ fill: '#737973', fontSize: 11, fontFamily: 'Geist Mono' }} />
-                <Tooltip contentStyle={{ backgroundColor: '#141816', border: '1px solid #1E2422', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 12 }} labelStyle={{ color: '#D4D4D4' }} />
+                <XAxis dataKey="iteration" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" allowDuplicatedCategory={false} />
+                <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
                 <Legend />
                 {results.map((r, i) => {
-                  const colors = ['#1A4D3E', '#C49A2A', '#A78BFA', '#A3413A', '#737973']
+                  const colors = ['#01231C', '#B8860B', '#663399', '#C4342D', '#555555']
                   return (
-                    <Line key={i} data={r.iterations} type="monotone" dataKey="error" stroke={colors[i % colors.length]} strokeWidth={1.5} name={METHOD_NAMES[r.method]} />
+                    <Line key={i} data={r.iterations} type="monotone" dataKey="error" stroke={colors[i % colors.length]} strokeWidth={1.5} dot={false} name={METHOD_NAMES[r.method]} />
                   )
                 })}
               </LineChart>

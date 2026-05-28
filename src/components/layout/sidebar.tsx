@@ -11,40 +11,30 @@ const modules = [
 
 export function Sidebar() {
   return (
-    <aside className="hidden lg:flex flex-col w-[240px] min-h-screen border-r border-subtle-edge bg-deep-night">
-      <div className="p-6">
-        <NavLink to="/" className="flex items-center gap-2">
-          <span className="font-mono text-sm tracking-wider font-semibold text-ghost-white">
-            YAKAN
-          </span>
+    <aside className="hidden lg:flex flex-col w-[220px] min-h-screen border-r border-border bg-white">
+      <div className="pt-8 pb-4 px-5">
+        <NavLink to="/" className="group">
+          <span className="text-[15px] font-semibold text-forest tracking-tight">Yakan</span>
+          <span className="text-[15px] font-light text-text-dim tracking-tight ml-1">Keisan</span>
         </NavLink>
-        <p className="text-[10px] tracking-[0.2em] text-dim mt-0.5">
-          Métodos Numéricos
-        </p>
       </div>
 
-      <nav className="flex-1 px-3">
-        <div className="mb-2">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
-                isActive
-                  ? 'text-ghost-white bg-forest-muted'
-                  : 'text-mist hover:text-ghost-white hover:bg-ash'
-              }`
-            }
-          >
-            <Home className="w-4 h-4" />
-            Inicio
-          </NavLink>
-        </div>
+      <nav className="flex-1 px-3 mt-2">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors mb-1 ${
+              isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'
+            }`
+          }
+        >
+          <Home className="w-[15px] h-[15px]" />
+          Inicio
+        </NavLink>
 
-        <div className="h-px bg-subtle-edge my-3" />
+        <div className="h-px bg-border my-3" />
 
-        <p className="px-3 mb-2 text-[10px] uppercase tracking-[0.15em] text-dim">
-          Módulos
-        </p>
+        <p className="px-3 mb-2 text-[10px] text-text-dim font-medium uppercase tracking-wider">Módulos</p>
 
         <div className="space-y-0.5">
           {modules.map(({ to, label, icon: Icon }) => (
@@ -52,32 +42,29 @@ export function Sidebar() {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
-                  isActive
-                    ? 'text-ghost-white bg-forest-muted'
-                    : 'text-mist hover:text-ghost-white hover:bg-ash'
+                `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                  isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'
                 }`
               }
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-[15px] h-[15px]" />
               {label}
             </NavLink>
           ))}
         </div>
       </nav>
 
-      <div className="p-3 border-t border-subtle-edge">
+      <div className="px-3 pb-4">
+        <div className="h-px bg-border mb-3" />
         <NavLink
           to="/conclusiones"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2 rounded-md text-[13px] transition-colors ${
-              isActive
-                ? 'text-ghost-white bg-forest-muted'
-                : 'text-mist hover:text-ghost-white hover:bg-ash'
+            `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+              isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'
             }`
           }
         >
-          <BookOpen className="w-4 h-4" />
+          <BookOpen className="w-[15px] h-[15px]" />
           Conclusiones
         </NavLink>
       </div>

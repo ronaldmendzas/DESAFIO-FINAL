@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { motion } from 'motion/react'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -29,7 +30,7 @@ const METHODS: { id: LinearSystemMethod; label: string }[] = [
   { id: 'gauss-seidel', label: 'Gauss-Seidel' },
   { id: 'sor', label: 'SOR' },
   { id: 'lu', label: 'LU' },
-  { id: 'conjugate-gradient', label: 'Gradiente Conjugado' },
+  { id: 'conjugate-gradient', label: 'Grad. Conjugado' },
 ]
 
 const DEFAULT_MATRIX_3X3 = [
@@ -104,49 +105,46 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
   const showIterativeFields = method !== 'lu'
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <motion.form
+      onSubmit={handleSubmit}
+      className="space-y-5"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Método
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Método</Label>
           <Select value={method} onValueChange={(v) => setMethod(v as LinearSystemMethod)}>
-            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-mist focus:ring-mist/20">
+            <SelectTrigger className="bg-white border-border font-mono text-[12px] h-8">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-deep-night border-subtle-edge">
+            <SelectContent className="bg-white border-border">
               {METHODS.map((m) => (
-                <SelectItem key={m.id} value={m.id} className="font-mono text-[13px]">
-                  {m.label}
-                </SelectItem>
+                <SelectItem key={m.id} value={m.id} className="font-mono text-[12px]">{m.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Tamaño de matriz
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Tamaño</Label>
           <Select value={String(size)} onValueChange={(v) => handleSizeChange(Number(v) as 3 | 4 | 5)}>
-            <SelectTrigger className="bg-void-black border-subtle-edge font-mono text-[13px] focus:border-mist focus:ring-mist/20">
+            <SelectTrigger className="bg-white border-border font-mono text-[12px] h-8">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-deep-night border-subtle-edge">
-              <SelectItem value="3" className="font-mono text-[13px]">3×3</SelectItem>
-              <SelectItem value="4" className="font-mono text-[13px]">4×4</SelectItem>
-              <SelectItem value="5" className="font-mono text-[13px]">5×5</SelectItem>
+            <SelectContent className="bg-white border-border">
+              <SelectItem value="3" className="font-mono text-[12px]">3×3</SelectItem>
+              <SelectItem value="4" className="font-mono text-[12px]">4×4</SelectItem>
+              <SelectItem value="5" className="font-mono text-[12px]">5×5</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
       <div>
-        <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-3 block">
-          Matriz de coeficientes (A)
-        </Label>
-        <div className="bg-void-black border border-subtle-edge rounded-lg p-4 overflow-x-auto">
-          <div className="inline-grid gap-2" style={{ gridTemplateColumns: `repeat(${size}, minmax(60px, 1fr))` }}>
+        <Label className="text-[11px] text-text-dim mb-1.5 block">Matriz A</Label>
+        <div className="border border-border rounded-lg p-3 bg-surface">
+          <div className="inline-grid gap-1.5" style={{ gridTemplateColumns: `repeat(${size}, minmax(50px, 1fr))` }}>
             {matrix.map((row, i) =>
               row.map((val, j) => (
                 <Input
@@ -154,7 +152,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
                   type="number"
                   value={val}
                   onChange={(e) => handleMatrixChange(i, j, e.target.value)}
-                  className="bg-deep-night border-subtle-edge font-mono text-[13px] text-center h-9 focus:border-mist focus:ring-mist/20"
+                  className="bg-white border-border font-mono text-[12px] text-center h-7 p-1"
                 />
               ))
             )}
@@ -163,18 +161,16 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
       </div>
 
       <div>
-        <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-3 block">
-          Vector de términos independientes (b)
-        </Label>
-        <div className="bg-void-black border border-subtle-edge rounded-lg p-4">
-          <div className="flex gap-2">
+        <Label className="text-[11px] text-text-dim mb-1.5 block">Vector b</Label>
+        <div className="border border-border rounded-lg p-3 bg-surface">
+          <div className="flex gap-1.5">
             {vector.map((val, i) => (
               <Input
                 key={i}
                 type="number"
                 value={val}
                 onChange={(e) => handleVectorChange(i, e.target.value)}
-                className="bg-deep-night border-subtle-edge font-mono text-[13px] text-center h-9 focus:border-mist focus:ring-mist/20"
+                className="bg-white border-border font-mono text-[12px] text-center h-7 p-1 flex-1"
               />
             ))}
           </div>
@@ -182,28 +178,24 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
       </div>
 
       {showIterativeFields && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-              Tolerancia
-            </Label>
+            <Label className="text-[11px] text-text-dim mb-1.5 block">Tolerancia</Label>
             <Input
               type="number"
               value={tolerance}
               onChange={(e) => setTolerance(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-mist focus:ring-mist/20"
+              className="bg-white border-border font-mono text-[12px] h-8"
               step="0.000001"
             />
           </div>
           <div>
-            <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-              Iteraciones máximas
-            </Label>
+            <Label className="text-[11px] text-text-dim mb-1.5 block">Iter. máximas</Label>
             <Input
               type="number"
               value={maxIterations}
               onChange={(e) => setMaxIterations(e.target.value)}
-              className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-mist focus:ring-mist/20"
+              className="bg-white border-border font-mono text-[12px] h-8"
               min="1"
               max="10000"
             />
@@ -213,14 +205,12 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
 
       {method === 'sor' && (
         <div>
-          <Label className="text-[11px] uppercase tracking-[0.2em] text-mist font-medium mb-2 block">
-            Parámetro ω (relajación)
-          </Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Parámetro ω</Label>
           <Input
             type="number"
             value={omega}
             onChange={(e) => setOmega(e.target.value)}
-            className="bg-void-black border-subtle-edge font-mono text-[13px] h-9 focus:border-mist focus:ring-mist/20"
+            className="bg-white border-border font-mono text-[12px] h-8 w-40"
             step="0.1"
             min="0.1"
             max="2"
@@ -228,23 +218,27 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
         </div>
       )}
 
-      <div className="flex gap-3">
-        <Button
+      <div className="flex items-center gap-3 pt-1">
+        <ShimmerButton
           type="submit"
           disabled={isCalculating}
-          className="bg-ghost-white text-void-black font-mono text-[13px] uppercase tracking-[0.15em] hover:bg-mist transition-colors active:scale-[0.98] px-8 h-10"
+          shimmerColor="#1A4D3E"
+          shimmerSize="0.04em"
+          shimmerDuration="2s"
+          borderRadius="6px"
+          background="#01231C"
+          className="px-5 py-2 text-[13px] font-medium disabled:opacity-40"
         >
           {isCalculating ? 'Calculando...' : 'Calcular'}
-        </Button>
-        <Button
+        </ShimmerButton>
+        <button
           type="button"
-          variant="ghost"
           onClick={handleReset}
-          className="text-mist hover:text-ghost-white font-mono text-[13px] uppercase tracking-[0.2em] h-10"
+          className="px-4 py-1.5 text-text-secondary text-[13px] hover:text-text transition-colors"
         >
           Limpiar
-        </Button>
+        </button>
       </div>
-    </form>
+    </motion.form>
   )
 }

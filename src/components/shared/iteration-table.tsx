@@ -16,13 +16,13 @@ type Props = {
 
 export function IterationTable({ headers, rows, highlightLast = true, maxHeight = '400px' }: Props) {
   return (
-    <div className="bg-void-black border border-subtle-edge rounded-md overflow-hidden">
+    <div className="border border-border rounded-lg overflow-hidden">
       <div className="overflow-auto" style={{ maxHeight }}>
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-subtle-edge hover:bg-transparent">
+            <TableRow className="border-b border-border hover:bg-transparent">
               {headers.map((header) => (
-                <TableHead key={header} className="text-[11px] uppercase tracking-[0.12em] text-dim font-medium font-mono">
+                <TableHead key={header} className="text-[10px] text-text-dim font-mono">
                   {header}
                 </TableHead>
               ))}
@@ -34,14 +34,12 @@ export function IterationTable({ headers, rows, highlightLast = true, maxHeight 
               return (
                 <TableRow
                   key={i}
-                  className={`border-b border-subtle-edge/50 font-mono text-[13px] ${
-                    isLast && highlightLast
-                      ? 'bg-forest-muted text-ghost-white'
-                      : 'text-mist'
+                  className={`border-b border-border/40 font-mono text-[12px] ${
+                    isLast && highlightLast ? 'bg-forest-bg text-forest font-medium' : 'text-text-secondary'
                   }`}
                 >
                   {row.map((cell, j) => (
-                    <TableCell key={j} className="py-2">
+                    <TableCell key={j} className="py-1.5">
                       {typeof cell === 'number' ? cell.toFixed(6) : cell}
                     </TableCell>
                   ))}

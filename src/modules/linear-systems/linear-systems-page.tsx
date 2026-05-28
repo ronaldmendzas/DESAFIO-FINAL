@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'motion/react'
 import { LinearSystemsForm } from './linear-systems-form'
 import { LinearSystemsResults } from './linear-systems-results'
 import { useLinearSystem } from '@/hooks/use-linear-system'
@@ -31,34 +32,33 @@ export function LinearSystemsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <p className="text-[11px] uppercase tracking-[0.15em] text-dim font-mono">Módulo 01</p>
-        <h1 className="font-mono text-xl font-semibold text-ghost-white mt-1">Sistemas de Ecuaciones Lineales</h1>
-        <p className="text-mist text-[14px] mt-2 leading-relaxed max-w-2xl">
-          Optimización del abastecimiento y red de transporte. Distribución de productos
-          desde plantas de acopio hacia distintas zonas resolviendo Ax = b.
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+        <p className="text-[11px] text-forest font-mono">01</p>
+        <h1 className="text-xl font-semibold text-text mt-0.5 tracking-tight">
+          Sistemas de Ecuaciones Lineales
+        </h1>
+        <p className="text-text-secondary text-[13px] mt-1.5 leading-relaxed">
+          Distribución de productos desde plantas de acopio hacia zonas resolviendo Ax = b.
         </p>
-      </div>
+      </motion.div>
 
       <Tabs value={activeMethod} onValueChange={(v) => setActiveMethod(v as LinearSystemMethod)}>
-        <TabsList className="bg-deep-night border border-subtle-edge h-auto p-1 flex-wrap">
-          <TabsTrigger value="jacobi" className="text-[12px] font-mono data-[state=active]:bg-forest-muted data-[state=active]:text-ghost-white">Jacobi</TabsTrigger>
-          <TabsTrigger value="gauss-seidel" className="text-[12px] font-mono data-[state=active]:bg-forest-muted data-[state=active]:text-ghost-white">Gauss-Seidel</TabsTrigger>
-          <TabsTrigger value="sor" className="text-[12px] font-mono data-[state=active]:bg-forest-muted data-[state=active]:text-ghost-white">SOR</TabsTrigger>
-          <TabsTrigger value="lu" className="text-[12px] font-mono data-[state=active]:bg-forest-muted data-[state=active]:text-ghost-white">LU</TabsTrigger>
-          <TabsTrigger value="conjugate-gradient" className="text-[12px] font-mono data-[state=active]:bg-forest-muted data-[state=active]:text-ghost-white">Grad. Conjugado</TabsTrigger>
+        <TabsList className="bg-surface border border-border h-auto p-0.5 flex-wrap gap-0.5">
+          <TabsTrigger value="jacobi" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">Jacobi</TabsTrigger>
+          <TabsTrigger value="gauss-seidel" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">Gauss-Seidel</TabsTrigger>
+          <TabsTrigger value="sor" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">SOR</TabsTrigger>
+          <TabsTrigger value="lu" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">LU</TabsTrigger>
+          <TabsTrigger value="conjugate-gradient" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">Grad. Conj.</TabsTrigger>
         </TabsList>
 
         {Object.entries(FORMULAS).map(([method, formula]) => (
           <TabsContent key={method} value={method} className="mt-6 space-y-6">
             <FormulaDisplay latex={formula} label={method} />
-            <div className="bg-deep-night border border-subtle-edge rounded-md p-6">
+            <div className="bg-white border border-border rounded-lg p-5">
               <LinearSystemsForm onCalculate={handleCalculate} onReset={reset} isCalculating={isCalculating} />
             </div>
             {error && (
-              <div className="bg-charcoal border border-subtle-edge rounded-md p-4">
-                <p className="text-signal-red font-mono text-[13px]">{error}</p>
-              </div>
+              <p className="text-red text-[13px] font-mono">{error}</p>
             )}
             <LinearSystemsResults results={results} />
           </TabsContent>
