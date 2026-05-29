@@ -49,7 +49,7 @@ export function useLinearSystem(): UseLinearSystemReturn {
           throw new Error(`Método no reconocido: ${method}`)
       }
 
-      setResults(prev => [...prev, result])
+      setResults(prev => [...prev.slice(-2), result])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido')
     } finally {

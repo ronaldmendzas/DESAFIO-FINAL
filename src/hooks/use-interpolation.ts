@@ -70,7 +70,7 @@ export function useInterpolation(): UseInterpolationReturn {
           throw new Error(`Método no reconocido: ${data.method}`)
       }
 
-      setResults(prev => [...prev, result])
+      setResults(prev => [...prev.slice(-2), result])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido')
     } finally {

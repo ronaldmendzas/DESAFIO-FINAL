@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { motion } from 'motion/react'
 import type { OdeResult } from '@/types/odes'
 import { ResultCard } from '@/components/shared/result-card'
@@ -36,21 +37,29 @@ type Props = {
 export function OdesResults({ results }: Props) {
   if (results.length === 0) return null
 
+  const chartsDataMap = useMemo(() => {
+    const map = new Map<number, { t: number; y: number }[]>()
+    results.forEach(r => {
+      map.set(r.executionTime, r.tValues.map((t, i) => ({
+        t: parseFloat(t.toFixed(4)),
+        y: parseFloat(r.yValues[0][i].toFixed(6)),
+      })))
+    })
+    return map
+  }, [results])
+
   return (
     <div className="space-y-12">
       {results.map((result, idx) => {
-        const chartData = result.tValues.map((t, i) => ({
-          t: parseFloat(t.toFixed(4)),
-          y: parseFloat(result.yValues[0][i].toFixed(6)),
-        }))
+        const chartData = chartsDataMap.get(result.executionTime) ?? []
         const finalPoint = chartData[chartData.length - 1]
 
         return (
           <motion.div
-            key={idx}
+            key={result.method + '-' + result.executionTime}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
             className="space-y-5"
           >
             <div className="flex items-center gap-2">

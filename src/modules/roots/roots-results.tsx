@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { motion } from 'motion/react'
 import type { RootResult } from '@/types/roots'
 import { ResultCard } from '@/components/shared/result-card'
@@ -64,17 +65,25 @@ function generatePlotData(fExpression: string, root: number) {
 export function RootsResults({ results, fExpression }: Props) {
   if (results.length === 0) return null
 
+  const plotDataMap = useMemo(() => {
+    const map = new Map<number, { x: number; y: number }[]>()
+    results.forEach(r => {
+      map.set(r.executionTime, generatePlotData(fExpression, r.result))
+    })
+    return map
+  }, [results, fExpression])
+
   return (
     <div className="space-y-12">
       {results.map((result, idx) => {
-        const plotData = generatePlotData(fExpression, result.result)
+        const plotData = plotDataMap.get(result.executionTime) ?? []
 
         return (
           <motion.div
-            key={idx}
+            key={result.method + '-' + result.executionTime}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
             className="space-y-5"
           >
             <div className="flex items-center gap-2">
