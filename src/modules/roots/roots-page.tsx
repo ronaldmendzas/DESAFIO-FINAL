@@ -16,7 +16,7 @@ const FORMULAS: Record<string, string> = {
 export function RootsPage() {
   const { results, isCalculating, error, calculate, reset } = useRoots()
   const [activeMethod, setActiveMethod] = useState<RootMethod>('bisection')
-  const [fExpression, setFExpression] = useState('x^3 - x - 2')
+  const [fExpression, setFExpression] = useState('x^3 - 6*x^2 + 11*x - 6')
 
   const handleCalculate = (data: {
     fExpression: string
@@ -45,7 +45,7 @@ export function RootsPage() {
           Raíces de Ecuaciones
         </h1>
         <p className="text-text-secondary text-[13px] mt-1.5 leading-relaxed">
-          Puntos de equilibrio donde la oferta iguala la demanda, modeloado con métodos numéricos de búsqueda de raíces.
+          Puntos de equilibrio donde la oferta iguala la demanda, umbrales críticos de precio y reservas.
         </p>
       </motion.div>
 

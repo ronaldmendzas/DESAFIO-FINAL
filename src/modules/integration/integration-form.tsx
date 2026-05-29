@@ -32,9 +32,9 @@ const METHODS: { id: IntegrationMethod; label: string }[] = [
 ]
 
 export function IntegrationForm({ onCalculate, onReset, isCalculating }: Props) {
-  const [fExpression, setFExpression] = useState('x^2 + 2*x + 1')
+  const [fExpression, setFExpression] = useState('0.5*x + 8')
   const [a, setA] = useState('0')
-  const [b, setB] = useState('10')
+  const [b, setB] = useState('30')
   const [n, setN] = useState('10')
   const [method, setMethod] = useState<IntegrationMethod>('trapezoidal')
 
@@ -50,9 +50,9 @@ export function IntegrationForm({ onCalculate, onReset, isCalculating }: Props) 
   }
 
   const handleReset = () => {
-    setFExpression('x^2 + 2*x + 1')
+    setFExpression('0.5*x + 8')
     setA('0')
-    setB('10')
+    setB('30')
     setN('10')
     setMethod('trapezoidal')
     onReset()

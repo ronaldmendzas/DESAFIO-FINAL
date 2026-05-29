@@ -36,13 +36,13 @@ const METHODS: { id: RootMethod; label: string }[] = [
 ]
 
 export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
-  const [fExpression, setFExpression] = useState('x^3 - x - 2')
-  const [fPrimeExpression, setFPrimeExpression] = useState('3*x^2 - 1')
+  const [fExpression, setFExpression] = useState('x^3 - 6*x^2 + 11*x - 6')
+  const [fPrimeExpression, setFPrimeExpression] = useState('3*x^2 - 12*x + 11')
   const [method, setMethod] = useState<RootMethod>('bisection')
-  const [a, setA] = useState('1')
-  const [b, setB] = useState('2')
-  const [x0, setX0] = useState('1.5')
-  const [x1, setX1] = useState('2')
+  const [a, setA] = useState('0')
+  const [b, setB] = useState('4')
+  const [x0, setX0] = useState('3.5')
+  const [x1, setX1] = useState('3')
   const [tolerance, setTolerance] = useState('0.000001')
   const [maxIterations, setMaxIterations] = useState('100')
 
@@ -62,12 +62,12 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
   }
 
   const handleReset = () => {
-    setFExpression('x^3 - x - 2')
-    setFPrimeExpression('3*x^2 - 1')
-    setA('1')
-    setB('2')
-    setX0('1.5')
-    setX1('2')
+    setFExpression('x^3 - 6*x^2 + 11*x - 6')
+    setFPrimeExpression('3*x^2 - 12*x + 11')
+    setA('0')
+    setB('4')
+    setX0('3.5')
+    setX1('3')
     setTolerance('0.000001')
     setMaxIterations('100')
     setMethod('bisection')
@@ -114,9 +114,9 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
           value={fExpression}
           onChange={(e) => setFExpression(e.target.value)}
           className="bg-white border-border font-mono text-[12px] h-8"
-          placeholder="x^3 - x - 2"
+          placeholder="x^3 - 6*x^2 + 11*x - 6"
         />
-        <p className="text-[11px] text-text-dim mt-1">Use x como variable. Ej: x^3 - x - 2, sin(x), exp(x)</p>
+        <p className="text-[11px] text-text-dim mt-1">Use x como variable. Ej: x^3 - 6*x^2 + 11*x - 6, sin(x), exp(x)</p>
       </div>
 
       {method === 'newton-raphson' && (
@@ -127,7 +127,7 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
             value={fPrimeExpression}
             onChange={(e) => setFPrimeExpression(e.target.value)}
             className="bg-white border-border font-mono text-[12px] h-8"
-            placeholder="3*x^2 - 1"
+            placeholder="3*x^2 - 12*x + 11"
           />
         </div>
       )}

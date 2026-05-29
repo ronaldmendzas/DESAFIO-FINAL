@@ -16,9 +16,9 @@ const FORMULAS: Record<string, string> = {
 export function IntegrationPage() {
   const { results, isCalculating, error, calculate, reset } = useIntegration()
   const [activeMethod, setActiveMethod] = useState<IntegrationMethod>('trapezoidal')
-  const [fExpression, setFExpression] = useState('x^2 + 2*x + 1')
+  const [fExpression, setFExpression] = useState('0.5*x + 8')
   const [a, setA] = useState(0)
-  const [b, setB] = useState(10)
+  const [b, setB] = useState(30)
 
   const handleCalculate = (data: {
     fExpression: string
@@ -41,7 +41,7 @@ export function IntegrationPage() {
           Integración Numérica
         </h1>
         <p className="text-text-secondary text-[13px] mt-1.5 leading-relaxed">
-          Costo acumulado y pérdida del poder adquisitivo. El gasto mensual como área bajo la curva de precios.
+          Costo acumulado de la canasta básica y pérdida del poder adquisitivo familiar. El gasto mensual como área bajo la curva de precios.
         </p>
       </motion.div>
 

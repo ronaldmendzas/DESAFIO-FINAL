@@ -33,11 +33,11 @@ const METHODS: { id: OdeMethod; label: string }[] = [
 ]
 
 export function OdesForm({ onCalculate, onReset, isCalculating }: Props) {
-  const [fExpression, setFExpression] = useState('-0.5 * y')
+  const [fExpression, setFExpression] = useState('-0.05 * y')
   const [t0, setT0] = useState('0')
-  const [y0, setY0] = useState('100')
-  const [tFinal, setTFinal] = useState('10')
-  const [h, setH] = useState('0.5')
+  const [y0, setY0] = useState('1000')
+  const [tFinal, setTFinal] = useState('60')
+  const [h, setH] = useState('1')
   const [method, setMethod] = useState<OdeMethod>('euler')
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,11 +53,11 @@ export function OdesForm({ onCalculate, onReset, isCalculating }: Props) {
   }
 
   const handleReset = () => {
-    setFExpression('-0.5 * y')
+    setFExpression('-0.05 * y')
     setT0('0')
-    setY0('100')
-    setTFinal('10')
-    setH('0.5')
+    setY0('1000')
+    setTFinal('60')
+    setH('1')
     setMethod('euler')
     onReset()
   }
@@ -102,7 +102,7 @@ export function OdesForm({ onCalculate, onReset, isCalculating }: Props) {
           value={fExpression}
           onChange={(e) => setFExpression(e.target.value)}
           className="bg-white border-border font-mono text-[12px] h-8"
-          placeholder="-0.5 * y"
+          placeholder="-0.05 * y"
         />
         <p className="text-[11px] text-text-dim mt-1">Use t e y como variables. Ej: -0.5*y, sin(t)*y, -2*t+1</p>
       </div>

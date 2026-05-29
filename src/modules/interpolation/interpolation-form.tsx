@@ -31,17 +31,18 @@ const METHODS: { id: InterpolationMethod; label: string }[] = [
 ]
 
 const DEFAULT_POINTS: DataPoint[] = [
-  { x: 1, y: 2 },
-  { x: 2, y: 3 },
-  { x: 3, y: 5 },
-  { x: 4, y: 4 },
-  { x: 5, y: 6 },
+  { x: 1, y: 8 },
+  { x: 5, y: 10 },
+  { x: 10, y: 13 },
+  { x: 15, y: 16 },
+  { x: 20, y: 19 },
+  { x: 30, y: 22 },
 ]
 
 export function InterpolationForm({ onCalculate, onReset, isCalculating }: Props) {
   const [points, setPoints] = useState<DataPoint[]>(DEFAULT_POINTS)
   const [method, setMethod] = useState<InterpolationMethod>('lagrange')
-  const [evaluateAt, setEvaluateAt] = useState('2.5')
+  const [evaluateAt, setEvaluateAt] = useState('7')
 
   const handlePointChange = (index: number, field: 'x' | 'y', value: string) => {
     const newPoints = points.map((p, i) =>
@@ -72,7 +73,7 @@ export function InterpolationForm({ onCalculate, onReset, isCalculating }: Props
 
   const handleReset = () => {
     setPoints(DEFAULT_POINTS.map(p => ({ ...p })))
-    setEvaluateAt('2.5')
+    setEvaluateAt('7')
     setMethod('lagrange')
     onReset()
   }
