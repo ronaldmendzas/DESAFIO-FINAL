@@ -12,6 +12,16 @@ export function bisection(
   const iterations: RootResult['iterations'] = []
   const start = performance.now()
 
+  if (a >= b) {
+    return {
+      method: 'bisection',
+      result: NaN,
+      iterations: [],
+      converged: false,
+      executionTime: performance.now() - start,
+    }
+  }
+
   const fa = f(a)
   const fb = f(b)
 

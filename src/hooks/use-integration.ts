@@ -22,9 +22,21 @@ export function useIntegration(): UseIntegrationReturn {
     setIsCalculating(true)
     setError(null)
 
-    const start = performance.now()
-
     try {
+      if (data.a >= data.b) {
+        throw new Error('El límite inferior (a) debe ser menor que el superior (b).')
+      }
+      if (data.n < 1) {
+        throw new Error('El número de subintervalos (n) debe ser al menos 1.')
+      }
+      if (data.method === 'simpson-1-3' && data.n % 2 !== 0) {
+        throw new Error('Simpson 1/3 requiere un número par de subintervalos.')
+      }
+      if (data.method === 'simpson-3-8' && data.n % 3 !== 0) {
+        throw new Error('Simpson 3/8 requiere un número de subintervalos múltiplo de 3.')
+      }
+
+      const start = performance.now()
       let result: IntegrationResult
 
       switch (data.method) {

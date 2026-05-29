@@ -22,9 +22,16 @@ export function useInterpolation(): UseInterpolationReturn {
     setIsCalculating(true)
     setError(null)
 
-    const start = performance.now()
-
     try {
+      if (data.points.length < 2) {
+        throw new Error('Se necesitan al menos 2 puntos para interpolar.')
+      }
+      const xs = data.points.map(p => p.x)
+      if (new Set(xs).size !== xs.length) {
+        throw new Error('Los valores de x deben ser distintos entre sí.')
+      }
+
+      const start = performance.now()
       let result: InterpolationResult
 
       switch (data.method) {

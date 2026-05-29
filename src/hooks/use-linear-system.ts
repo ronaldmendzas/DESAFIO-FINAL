@@ -26,6 +26,34 @@ export function useLinearSystem(): UseLinearSystemReturn {
 
     try {
       const { matrix, vector, initialVector, tolerance, maxIterations, method, omega } = data
+      const n = matrix.length
+
+      if (n === 0) {
+        throw new Error('La matriz no puede estar vacía.')
+      }
+      for (const row of matrix) {
+        if (row.length !== n) {
+          throw new Error('La matriz debe ser cuadrada.')
+        }
+        if (row.some((v: number) => isNaN(v))) {
+          throw new Error('Todos los valores de la matriz deben ser números válidos.')
+        }
+      }
+      if (vector.length !== n) {
+        throw new Error('El vector debe tener la misma dimensión que la matriz.')
+      }
+      if (vector.some((v: number) => isNaN(v))) {
+        throw new Error('Todos los valores del vector deben ser números válidos.')
+      }
+      for (let i = 0; i < n; i++) {
+        if (matrix[i][i] === 0 && method !== 'lu') {
+          throw new Error('La diagonal de la matriz no puede contener ceros para métodos iterativos.')
+        }
+      }
+      if (tolerance > 1) {
+        throw new Error('La tolerancia debe ser menor a 1. Use valores como 0.000001.')
+      }
+
       const x0 = initialVector || vector.map(() => 0)
       let result: LinearSystemResult
 

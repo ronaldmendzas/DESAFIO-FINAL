@@ -68,7 +68,9 @@ export function RootsResults({ results, fExpression }: Props) {
   const plotDataMap = useMemo(() => {
     const map = new Map<number, { x: number; y: number }[]>()
     results.forEach(r => {
-      map.set(r.executionTime, generatePlotData(fExpression, r.result))
+      if (Number.isFinite(r.result)) {
+        map.set(r.executionTime, generatePlotData(fExpression, r.result))
+      }
     })
     return map
   }, [results, fExpression])
@@ -106,7 +108,7 @@ export function RootsResults({ results, fExpression }: Props) {
               <ResultCard label="Tiempo" value={result.executionTime} icon={Clock} decimals={3} suffix="ms" />
             </div>
 
-            {plotData.length > 0 && (
+            {plotData.length > 0 && result.converged && (
               <div>
                 <p className="text-[11px] text-text-dim mb-2">Gráfica de f(x)</p>
                 <ChartWrapper height={280}>
@@ -128,7 +130,7 @@ export function RootsResults({ results, fExpression }: Props) {
               </div>
             )}
 
-            {result.iterations.length > 1 && (
+            {result.iterations.length > 1 && result.converged && (
               <div>
                 <p className="text-[11px] text-text-dim mb-2">Convergencia del error</p>
                 <ChartWrapper height={280}>
@@ -143,7 +145,7 @@ export function RootsResults({ results, fExpression }: Props) {
               </div>
             )}
 
-            {result.iterations.length > 0 && (
+            {result.iterations.length > 0 && Number.isFinite(result.result) && (
               <IterationTable
                 headers={[
                   { key: 'iteration', label: '#' },

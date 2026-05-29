@@ -35,9 +35,18 @@ export function useOdes(): UseOdesReturn {
     setIsCalculating(true)
     setError(null)
 
-    const start = performance.now()
-
     try {
+      if (data.h <= 0) {
+        throw new Error('El tamaño de paso (h) debe ser mayor a 0.')
+      }
+      if (data.tFinal <= data.t0) {
+        throw new Error('El tiempo final debe ser mayor que el tiempo inicial.')
+      }
+      if ((data.tFinal - data.t0) / data.h > 10000) {
+        throw new Error('Demasiados pasos. Reduzca el intervalo o aumente h.')
+      }
+
+      const start = performance.now()
       let result: OdeResult
 
       switch (data.method) {
