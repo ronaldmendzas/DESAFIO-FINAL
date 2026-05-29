@@ -7,6 +7,7 @@ Pagina web interactiva que aplica metodos numericos para modelar y simular probl
 **Desarrollado por:**
 - Ronald Mendoza Caspa — Desarrollo, arquitectura, diseno e implementacion
 - Carla Andrea Enriquez Bravo — QA y pruebas
+- Harold Ruddy Quispe Hilari — Documentacion y soporte tecnico
 
 **Materia:** Metodos Numericos
 
@@ -168,6 +169,7 @@ npm run preview # Preview del build
 
 - **Ronald Mendoza Caspa** (Desarrollo, arquitectura, diseno e implementacion)
 - **Carla Andrea Enriquez Bravo** (QA, pruebas y validacion)
+- **Harold Ruddy Quispe Hilari** (Documentacion y soporte tecnico)
 - **Materia:** Metodos Numericos
 - **Titulo del proyecto:** SimNum — Simulacion Numerica de Crisis
 - **Enlace de la pagina web:** https://desafio-final.vercel.app
