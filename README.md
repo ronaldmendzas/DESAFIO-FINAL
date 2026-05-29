@@ -5,8 +5,8 @@
 Pagina web interactiva que aplica metodos numericos para modelar y simular problemas de abastecimiento, transporte, precios y conflicto social en contexto de crisis.
 
 **Desarrollado por:**
-- Ronald Mendoza Caspa
-- Carla Andrea Enriquez Bravo
+- Ronald Mendoza Caspa — Desarrollo, arquitectura, diseno e implementacion
+- Carla Andrea Enriquez Bravo — QA y pruebas
 
 **Materia:** Metodos Numericos
 
@@ -166,7 +166,8 @@ npm run preview # Preview del build
 
 ## Formato de entrega
 
-- **Nombre completo:** Ronald Mendoza Caspa, Carla Andrea Enriquez Bravo
+- **Ronald Mendoza Caspa** (Desarrollo, arquitectura, diseno e implementacion)
+- **Carla Andrea Enriquez Bravo** (QA, pruebas y validacion)
 - **Materia:** Metodos Numericos
 - **Titulo del proyecto:** SimNum — Simulacion Numerica de Crisis
 - **Enlace de la pagina web:** https://desafio-final.vercel.app
