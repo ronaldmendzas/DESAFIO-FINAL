@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
-import { Input } from '@/components/ui/input'
+import { NumberInput } from '@/components/shared/number-input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -101,10 +101,9 @@ export function InterpolationForm({ onCalculate, onReset, isCalculating }: Props
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Evaluar en x =</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={evaluateAt}
-            onChange={(e) => setEvaluateAt(e.target.value)}
+            onChange={setEvaluateAt}
             className="bg-white border-border font-mono text-[12px] h-8"
             step="0.1"
           />
@@ -130,16 +129,14 @@ export function InterpolationForm({ onCalculate, onReset, isCalculating }: Props
           </div>
           {points.map((point, i) => (
             <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-center">
-              <Input
-                type="number"
-                value={point.x}
-                onChange={(e) => handlePointChange(i, 'x', e.target.value)}
+              <NumberInput
+                value={String(point.x)}
+                onChange={(v) => handlePointChange(i, 'x', v)}
                 className="bg-white border-border font-mono text-[12px] text-center h-7 p-1"
               />
-              <Input
-                type="number"
-                value={point.y}
-                onChange={(e) => handlePointChange(i, 'y', e.target.value)}
+              <NumberInput
+                value={String(point.y)}
+                onChange={(v) => handlePointChange(i, 'y', v)}
                 className="bg-white border-border font-mono text-[12px] text-center h-7 p-1"
               />
               <button

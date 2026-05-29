@@ -11,9 +11,13 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
+  CartesianGrid,
   Legend,
+  AreaChart,
+  Area,
+  ReferenceLine,
 } from 'recharts'
+import { ChartWrapper, CHART_COLORS, AXIS_TICK, TOOLTIP_STYLE } from '@/components/shared/chart-wrapper'
 import { compile } from 'mathjs'
 
 const FORMULAS: Record<string, string> = {
@@ -96,32 +100,37 @@ export function RootsResults({ results, fExpression }: Props) {
             {plotData.length > 0 && (
               <div>
                 <p className="text-[11px] text-text-dim mb-2">Gráfica de f(x)</p>
-                <div className="border border-border rounded-lg p-3">
-                  <ResponsiveContainer width="100%" height={220}>
-                    <LineChart data={plotData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                      <XAxis dataKey="x" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                      <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                      <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                      <Line type="monotone" dataKey="y" stroke="#01231C" strokeWidth={1.5} dot={false} name="f(x)" />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
+                <ChartWrapper height={280}>
+                  <AreaChart data={plotData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                    <defs>
+                      <linearGradient id="colorY" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.15} />
+                        <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+                    <XAxis dataKey="x" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                    <YAxis stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                    <ReferenceLine y={0} stroke={CHART_COLORS.red} strokeDasharray="4 4" strokeWidth={0.5} />
+                    <Area type="monotone" dataKey="y" stroke={CHART_COLORS.primary} fill="url(#colorY)" strokeWidth={2} name="f(x)" animationDuration={800} />
+                  </AreaChart>
+                </ChartWrapper>
               </div>
             )}
 
             {result.iterations.length > 1 && (
               <div>
                 <p className="text-[11px] text-text-dim mb-2">Convergencia del error</p>
-                <div className="border border-border rounded-lg p-3">
-                  <ResponsiveContainer width="100%" height={220}>
-                    <LineChart data={result.iterations}>
-                      <XAxis dataKey="iteration" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                      <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                      <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                      <Line type="monotone" dataKey="error" stroke="#01231C" strokeWidth={1.5} dot={false} name="Error" />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
+                <ChartWrapper height={280}>
+                  <LineChart data={result.iterations}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+                    <XAxis dataKey="iteration" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                    <YAxis stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                    <Line type="monotone" dataKey="error" stroke={CHART_COLORS.primary} strokeWidth={2} dot={false} name="Error" activeDot={{ r: 4, fill: CHART_COLORS.primary, stroke: '#fff', strokeWidth: 2 }} animationDuration={800} />
+                  </LineChart>
+                </ChartWrapper>
               </div>
             )}
 
@@ -160,22 +169,21 @@ export function RootsResults({ results, fExpression }: Props) {
       {results.length > 1 && (
         <div>
           <p className="text-[11px] text-text-dim mb-2">Comparación de métodos</p>
-          <div className="border border-border rounded-lg p-3">
-            <ResponsiveContainer width="100%" height={220}>
-              <LineChart>
-                <XAxis dataKey="iteration" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" allowDuplicatedCategory={false} />
-                <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                <Legend />
-                {results.map((r, i) => {
-                  const colors = ['#01231C', '#B8860B', '#663399']
-                  return (
-                    <Line key={i} data={r.iterations} type="monotone" dataKey="error" stroke={colors[i % colors.length]} strokeWidth={1.5} dot={false} name={METHOD_NAMES[r.method]} />
-                  )
-                })}
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartWrapper height={280}>
+            <LineChart>
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+              <XAxis dataKey="iteration" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} type="number" allowDuplicatedCategory={false} />
+              <YAxis stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+              <Tooltip contentStyle={TOOLTIP_STYLE} />
+              <Legend />
+              {results.map((r, i) => {
+                const colors = [CHART_COLORS.primary, CHART_COLORS.amber, CHART_COLORS.purple]
+                return (
+                  <Line key={i} data={r.iterations} type="monotone" dataKey="error" stroke={colors[i % colors.length]} strokeWidth={2} dot={false} name={METHOD_NAMES[r.method]} activeDot={{ r: 4, fill: colors[i % colors.length], stroke: '#fff', strokeWidth: 2 }} animationDuration={800} />
+                )
+              })}
+            </LineChart>
+          </ChartWrapper>
         </div>
       )}
     </div>

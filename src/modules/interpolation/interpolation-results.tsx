@@ -5,14 +5,16 @@ import { InterpretationCard } from '@/components/shared/interpretation-card'
 import { FormulaDisplay } from '@/components/shared/formula-display'
 import { CheckCircle, Clock, Target } from 'lucide-react'
 import {
+  ComposedChart,
+  Line,
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
+  CartesianGrid,
   Legend,
-  ScatterChart,
   Scatter,
 } from 'recharts'
+import { ChartWrapper, CHART_COLORS, AXIS_TICK, TOOLTIP_STYLE } from '@/components/shared/chart-wrapper'
 
 const FORMULAS: Record<string, string> = {
   lagrange: 'P(x) = \\sum_{i=0}^{n} y_i \\prod_{j \\neq i} \\frac{x - x_j}{x_i - x_j}',
@@ -62,18 +64,17 @@ export function InterpolationResults({ results, points }: Props) {
           {result.curvePoints.length > 0 && (
             <div>
               <p className="text-[11px] text-text-dim mb-2">Curva de interpolación</p>
-              <div className="border border-border rounded-lg p-3">
-                <ResponsiveContainer width="100%" height={250}>
-                  <ScatterChart margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                    <XAxis dataKey="x" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" />
-                    <YAxis dataKey="y" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" />
-                    <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                    <Scatter name="Datos originales" data={points} fill="#B8860B" r={4} />
-                    <Scatter name="Curva interpolada" data={result.curvePoints} fill="#01231C" r={1} />
-                    <Legend />
-                  </ScatterChart>
-                </ResponsiveContainer>
-              </div>
+              <ChartWrapper height={280}>
+                <ComposedChart margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+                  <XAxis dataKey="x" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} type="number" />
+                  <YAxis dataKey="y" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} type="number" />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} />
+                  <Line type="monotone" dataKey="y" data={result.curvePoints} stroke={CHART_COLORS.primary} strokeWidth={2} dot={false} name="Curva interpolada" animationDuration={800} activeDot={{ r: 4, fill: CHART_COLORS.primary, stroke: '#fff', strokeWidth: 2 }} />
+                  <Scatter name="Datos originales" data={points} fill={CHART_COLORS.amber} r={4} />
+                  <Legend />
+                </ComposedChart>
+              </ChartWrapper>
             </div>
           )}
 
@@ -150,23 +151,22 @@ export function InterpolationResults({ results, points }: Props) {
       {results.length > 1 && (
         <div>
           <p className="text-[11px] text-text-dim mb-2">Comparación de métodos</p>
-          <div className="border border-border rounded-lg p-3">
-            <ResponsiveContainer width="100%" height={250}>
-              <ScatterChart margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                <XAxis dataKey="x" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" />
-                <YAxis dataKey="y" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" />
-                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                <Legend />
-                {results.map((r, i) => {
-                  const colors = ['#01231C', '#B8860B', '#663399']
-                  return (
-                    <Scatter key={i} name={METHOD_NAMES[r.method]} data={r.curvePoints} fill={colors[i % colors.length]} r={1} />
-                  )
-                })}
-                <Scatter name="Datos originales" data={points} fill="#C4342D" r={4} />
-              </ScatterChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartWrapper height={280}>
+            <ComposedChart margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+              <XAxis dataKey="x" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} type="number" />
+              <YAxis dataKey="y" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} type="number" />
+              <Tooltip contentStyle={TOOLTIP_STYLE} />
+              <Legend />
+              {results.map((r, i) => {
+                const colors = [CHART_COLORS.primary, CHART_COLORS.amber, CHART_COLORS.purple]
+                return (
+                  <Line key={i} type="monotone" dataKey="y" data={r.curvePoints} stroke={colors[i % colors.length]} strokeWidth={2} dot={false} name={METHOD_NAMES[r.method]} activeDot={{ r: 4, fill: colors[i % colors.length], stroke: '#fff', strokeWidth: 2 }} animationDuration={800} />
+                )
+              })}
+              <Scatter name="Datos originales" data={points} fill={CHART_COLORS.red} r={4} />
+            </ComposedChart>
+          </ChartWrapper>
         </div>
       )}
     </div>

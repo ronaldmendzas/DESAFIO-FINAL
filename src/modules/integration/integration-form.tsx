@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
+import { NumberInput } from '@/components/shared/number-input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -81,10 +82,9 @@ export function IntegrationForm({ onCalculate, onReset, isCalculating }: Props) 
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Subintervalos (n)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={n}
-            onChange={(e) => setN(e.target.value)}
+            onChange={setN}
             className="bg-white border-border font-mono text-[12px] h-8"
             min="1"
             max="10000"
@@ -107,19 +107,17 @@ export function IntegrationForm({ onCalculate, onReset, isCalculating }: Props) 
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Límite inferior (a)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={a}
-            onChange={(e) => setA(e.target.value)}
+            onChange={setA}
             className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Límite superior (b)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={b}
-            onChange={(e) => setB(e.target.value)}
+            onChange={setB}
             className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>

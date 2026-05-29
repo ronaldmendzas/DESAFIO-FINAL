@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
-import { Input } from '@/components/ui/input'
+import { NumberInput } from '@/components/shared/number-input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -42,8 +42,8 @@ const DEFAULT_MATRIX_3X3 = [
 const DEFAULT_VECTOR_3 = [7, -8, 6]
 
 export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props) {
-  const [matrix, setMatrix] = useState<number[][]>(DEFAULT_MATRIX_3X3)
-  const [vector, setVector] = useState<number[]>(DEFAULT_VECTOR_3)
+  const [matrix, setMatrix] = useState<string[][]>(DEFAULT_MATRIX_3X3.map(r => r.map(String)))
+  const [vector, setVector] = useState<string[]>(DEFAULT_VECTOR_3.map(String))
   const [tolerance, setTolerance] = useState('0.000001')
   const [maxIterations, setMaxIterations] = useState('100')
   const [method, setMethod] = useState<LinearSystemMethod>('jacobi')
@@ -55,13 +55,13 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
     const newMatrix = Array.from({ length: newSize }, (_, i) =>
       Array.from({ length: newSize }, (_, j) => {
         if (i < DEFAULT_MATRIX_3X3.length && j < DEFAULT_MATRIX_3X3[0].length) {
-          return DEFAULT_MATRIX_3X3[i][j]
+          return String(DEFAULT_MATRIX_3X3[i][j])
         }
-        return i === j ? 10 : 0
+        return i === j ? '10' : '0'
       })
     )
     const newVector = Array.from({ length: newSize }, (_, i) =>
-      i < DEFAULT_VECTOR_3.length ? DEFAULT_VECTOR_3[i] : 0
+      i < DEFAULT_VECTOR_3.length ? String(DEFAULT_VECTOR_3[i]) : '0'
     )
     setMatrix(newMatrix)
     setVector(newVector)
@@ -69,21 +69,21 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
 
   const handleMatrixChange = (row: number, col: number, value: string) => {
     const newMatrix = matrix.map((r, i) =>
-      r.map((c, j) => (i === row && j === col ? parseFloat(value) || 0 : c))
+      r.map((c, j) => (i === row && j === col ? value : c))
     )
     setMatrix(newMatrix)
   }
 
   const handleVectorChange = (index: number, value: string) => {
-    const newVector = vector.map((v, i) => (i === index ? parseFloat(value) || 0 : v))
+    const newVector = vector.map((v, i) => (i === index ? value : v))
     setVector(newVector)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onCalculate({
-      matrix,
-      vector,
+      matrix: matrix.map(r => r.map(v => parseFloat(v) || 0)),
+      vector: vector.map(v => parseFloat(v) || 0),
       tolerance: parseFloat(tolerance),
       maxIterations: parseInt(maxIterations),
       method,
@@ -92,8 +92,8 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
   }
 
   const handleReset = () => {
-    setMatrix(DEFAULT_MATRIX_3X3.map(r => [...r]))
-    setVector([...DEFAULT_VECTOR_3])
+    setMatrix(DEFAULT_MATRIX_3X3.map(r => r.map(String)))
+    setVector(DEFAULT_VECTOR_3.map(String))
     setTolerance('0.000001')
     setMaxIterations('100')
     setMethod('jacobi')
@@ -147,11 +147,10 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
           <div className="inline-grid gap-1.5" style={{ gridTemplateColumns: `repeat(${size}, minmax(50px, 1fr))` }}>
             {matrix.map((row, i) =>
               row.map((val, j) => (
-                <Input
+                <NumberInput
                   key={`${i}-${j}`}
-                  type="number"
                   value={val}
-                  onChange={(e) => handleMatrixChange(i, j, e.target.value)}
+                  onChange={(v) => handleMatrixChange(i, j, v)}
                   className="bg-white border-border font-mono text-[12px] text-center h-7 p-1"
                 />
               ))
@@ -165,11 +164,10 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
         <div className="border border-border rounded-lg p-3 bg-surface">
           <div className="flex gap-1.5">
             {vector.map((val, i) => (
-              <Input
+              <NumberInput
                 key={i}
-                type="number"
                 value={val}
-                onChange={(e) => handleVectorChange(i, e.target.value)}
+                onChange={(v) => handleVectorChange(i, v)}
                 className="bg-white border-border font-mono text-[12px] text-center h-7 p-1 flex-1"
               />
             ))}
@@ -181,23 +179,18 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label className="text-[11px] text-text-dim mb-1.5 block">Tolerancia</Label>
-            <Input
-              type="number"
+            <NumberInput
               value={tolerance}
-              onChange={(e) => setTolerance(e.target.value)}
+              onChange={setTolerance}
               className="bg-white border-border font-mono text-[12px] h-8"
-              step="0.000001"
             />
           </div>
           <div>
             <Label className="text-[11px] text-text-dim mb-1.5 block">Iter. máximas</Label>
-            <Input
-              type="number"
+            <NumberInput
               value={maxIterations}
-              onChange={(e) => setMaxIterations(e.target.value)}
+              onChange={setMaxIterations}
               className="bg-white border-border font-mono text-[12px] h-8"
-              min="1"
-              max="10000"
             />
           </div>
         </div>
@@ -206,14 +199,10 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
       {method === 'sor' && (
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Parámetro ω</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={omega}
-            onChange={(e) => setOmega(e.target.value)}
+            onChange={setOmega}
             className="bg-white border-border font-mono text-[12px] h-8 w-40"
-            step="0.1"
-            min="0.1"
-            max="2"
           />
         </div>
       )}

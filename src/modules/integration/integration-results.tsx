@@ -11,9 +11,10 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
-  Legend,
+  CartesianGrid,
+  ReferenceLine,
 } from 'recharts'
+import { ChartWrapper, CHART_COLORS, AXIS_TICK, TOOLTIP_STYLE } from '@/components/shared/chart-wrapper'
 import { compile } from 'mathjs'
 
 const FORMULAS: Record<string, string> = {
@@ -92,16 +93,22 @@ export function IntegrationResults({ results, fExpression, a, b }: Props) {
           {areaData.length > 0 && (
             <div>
               <p className="text-[11px] text-text-dim mb-2">Área bajo la curva</p>
-              <div className="border border-border rounded-lg p-3">
-                <ResponsiveContainer width="100%" height={220}>
-                  <AreaChart data={areaData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                    <XAxis dataKey="x" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                    <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                    <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                    <Area type="monotone" dataKey="y" stroke="#01231C" fill="#E6F0EB" strokeWidth={1.5} name="f(x)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+              <ChartWrapper height={280}>
+                <AreaChart data={areaData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="colorArea" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.2} />
+                      <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+                  <XAxis dataKey="x" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                  <YAxis stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} />
+                  <ReferenceLine y={0} stroke={CHART_COLORS.red} strokeDasharray="4 4" strokeWidth={0.5} />
+                  <Area type="monotone" dataKey="y" stroke={CHART_COLORS.primary} fill="url(#colorArea)" strokeWidth={2} name="f(x)" animationDuration={800} />
+                </AreaChart>
+              </ChartWrapper>
             </div>
           )}
 
@@ -137,16 +144,14 @@ export function IntegrationResults({ results, fExpression, a, b }: Props) {
       {results.length > 1 && (
         <div>
           <p className="text-[11px] text-text-dim mb-2">Comparación de métodos</p>
-          <div className="border border-border rounded-lg p-3">
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={areaData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                <XAxis dataKey="x" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                <Legend />
-                <Area type="monotone" dataKey="y" stroke="#01231C" fill="#E6F0EB" strokeWidth={1.5} name="f(x)" />
-              </AreaChart>
-            </ResponsiveContainer>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {results.map((r) => (
+              <div key={r.method} className="border border-border rounded-lg p-3 bg-white">
+                <p className="text-[11px] text-text-dim mb-1">{METHOD_NAMES[r.method]}</p>
+                <p className="text-lg font-mono font-medium text-text">{r.result.toFixed(6)}</p>
+                <p className="text-[10px] text-text-dim">n = {r.iterations.length - 1}, h = {r.h.toFixed(6)}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}

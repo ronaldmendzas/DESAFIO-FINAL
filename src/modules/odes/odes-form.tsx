@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
+import { NumberInput } from '@/components/shared/number-input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -85,10 +86,9 @@ export function OdesForm({ onCalculate, onReset, isCalculating }: Props) {
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Paso (h)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={h}
-            onChange={(e) => setH(e.target.value)}
+            onChange={setH}
             className="bg-white border-border font-mono text-[12px] h-8"
             step="0.01"
           />
@@ -110,28 +110,25 @@ export function OdesForm({ onCalculate, onReset, isCalculating }: Props) {
       <div className="grid grid-cols-3 gap-4">
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">t₀ (inicio)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={t0}
-            onChange={(e) => setT0(e.target.value)}
+            onChange={setT0}
             className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">y₀ (valor inicial)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={y0}
-            onChange={(e) => setY0(e.target.value)}
+            onChange={setY0}
             className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">t final</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={tFinal}
-            onChange={(e) => setTFinal(e.target.value)}
+            onChange={setTFinal}
             className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>

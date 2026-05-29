@@ -11,9 +11,11 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
+  CartesianGrid,
   Legend,
+  ReferenceDot,
 } from 'recharts'
+import { ChartWrapper, CHART_COLORS, AXIS_TICK, TOOLTIP_STYLE } from '@/components/shared/chart-wrapper'
 
 const FORMULAS: Record<string, string> = {
   euler: 'y_{n+1} = y_n + h \\cdot f(t_n, y_n)',
@@ -41,6 +43,7 @@ export function OdesResults({ results }: Props) {
           t: parseFloat(t.toFixed(4)),
           y: parseFloat(result.yValues[0][i].toFixed(6)),
         }))
+        const finalPoint = chartData[chartData.length - 1]
 
         return (
           <motion.div
@@ -69,16 +72,16 @@ export function OdesResults({ results }: Props) {
             {chartData.length > 0 && (
               <div>
                 <p className="text-[11px] text-text-dim mb-2">Solución y(t)</p>
-                <div className="border border-border rounded-lg p-3">
-                  <ResponsiveContainer width="100%" height={250}>
-                    <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                      <XAxis dataKey="t" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                      <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                      <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                      <Line type="monotone" dataKey="y" stroke="#01231C" strokeWidth={1.5} dot={false} name="y(t)" />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
+                <ChartWrapper height={280}>
+                  <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+                    <XAxis dataKey="t" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                    <YAxis stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                    <ReferenceDot x={finalPoint?.t} y={finalPoint?.y} r={4} fill={CHART_COLORS.primary} stroke="#fff" strokeWidth={2} />
+                    <Line type="monotone" dataKey="y" stroke={CHART_COLORS.primary} strokeWidth={2} dot={false} name="y(t)" activeDot={{ r: 4, fill: CHART_COLORS.primary, stroke: '#fff', strokeWidth: 2 }} animationDuration={800} />
+                  </LineChart>
+                </ChartWrapper>
               </div>
             )}
 
@@ -115,26 +118,26 @@ export function OdesResults({ results }: Props) {
       {results.length > 1 && (
         <div>
           <p className="text-[11px] text-text-dim mb-2">Comparación de métodos</p>
-          <div className="border border-border rounded-lg p-3">
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                <XAxis dataKey="t" stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} type="number" />
-                <YAxis stroke="#D0D0D0" tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Geist Mono' }} />
-                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: '6px', fontFamily: 'Geist Mono', fontSize: 11, color: '#111111' }} />
-                <Legend />
-                {results.map((r, i) => {
-                  const colors = ['#01231C', '#B8860B', '#663399']
-                  const data = r.tValues.map((t, j) => ({
-                    t: parseFloat(t.toFixed(4)),
-                    y: parseFloat(r.yValues[0][j].toFixed(6)),
-                  }))
-                  return (
-                    <Line key={i} data={data} type="monotone" dataKey="y" stroke={colors[i % colors.length]} strokeWidth={1.5} dot={false} name={METHOD_NAMES[r.method]} />
-                  )
-                })}
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartWrapper height={280}>
+            <LineChart margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0F0F0" vertical={false} />
+              <XAxis dataKey="t" stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} type="number" />
+              <YAxis stroke="#E0E0E0" tick={AXIS_TICK} tickLine={false} />
+              <Tooltip contentStyle={TOOLTIP_STYLE} />
+              <Legend />
+              {results.map((r, i) => {
+                const colors = [CHART_COLORS.primary, CHART_COLORS.amber, CHART_COLORS.purple]
+                const dashPatterns = ['', '8 4', '4 4']
+                const data = r.tValues.map((t, j) => ({
+                  t: parseFloat(t.toFixed(4)),
+                  y: parseFloat(r.yValues[0][j].toFixed(6)),
+                }))
+                return (
+                  <Line key={i} data={data} type="monotone" dataKey="y" stroke={colors[i % colors.length]} strokeWidth={2} strokeDasharray={dashPatterns[i]} dot={false} name={METHOD_NAMES[r.method]} activeDot={{ r: 4, fill: colors[i % colors.length], stroke: '#fff', strokeWidth: 2 }} animationDuration={800} />
+                )
+              })}
+            </LineChart>
+          </ChartWrapper>
         </div>
       )}
     </div>

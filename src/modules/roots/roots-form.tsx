@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
+import { NumberInput } from '@/components/shared/number-input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -97,10 +98,9 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
         </div>
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Tolerancia</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={tolerance}
-            onChange={(e) => setTolerance(e.target.value)}
+            onChange={setTolerance}
             className="bg-white border-border font-mono text-[12px] h-8"
             step="0.000001"
           />
@@ -136,19 +136,17 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label className="text-[11px] text-text-dim mb-1.5 block">Límite inferior (a)</Label>
-            <Input
-              type="number"
+            <NumberInput
               value={a}
-              onChange={(e) => setA(e.target.value)}
+              onChange={setA}
               className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
           <div>
             <Label className="text-[11px] text-text-dim mb-1.5 block">Límite superior (b)</Label>
-            <Input
-              type="number"
+            <NumberInput
               value={b}
-              onChange={(e) => setB(e.target.value)}
+              onChange={setB}
               className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
@@ -158,10 +156,9 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
       {method === 'newton-raphson' && (
         <div>
           <Label className="text-[11px] text-text-dim mb-1.5 block">Valor inicial (x₀)</Label>
-          <Input
-            type="number"
+          <NumberInput
             value={x0}
-            onChange={(e) => setX0(e.target.value)}
+            onChange={setX0}
             className="bg-white border-border font-mono text-[12px] h-8"
           />
         </div>
@@ -171,19 +168,17 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label className="text-[11px] text-text-dim mb-1.5 block">Primer punto (x₀)</Label>
-            <Input
-              type="number"
+            <NumberInput
               value={x0}
-              onChange={(e) => setX0(e.target.value)}
+              onChange={setX0}
               className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
           <div>
             <Label className="text-[11px] text-text-dim mb-1.5 block">Segundo punto (x₁)</Label>
-            <Input
-              type="number"
+            <NumberInput
               value={x1}
-              onChange={(e) => setX1(e.target.value)}
+              onChange={setX1}
               className="bg-white border-border font-mono text-[12px] h-8"
             />
           </div>
@@ -192,10 +187,9 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
 
       <div>
         <Label className="text-[11px] text-text-dim mb-1.5 block">Iteraciones máximas</Label>
-        <Input
-          type="number"
+        <NumberInput
           value={maxIterations}
-          onChange={(e) => setMaxIterations(e.target.value)}
+          onChange={setMaxIterations}
           className="bg-white border-border font-mono text-[12px] h-8 max-w-[200px]"
           min="1"
           max="10000"
