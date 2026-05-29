@@ -21,7 +21,7 @@ export function HomePage() {
           transition={{ duration: 0.5 }}
           className="text-2xl font-semibold text-text tracking-tight"
         >
-          Yakan Keisan
+          SimNum
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 10 }}

@@ -2,6 +2,8 @@
 
 Pagina web interactiva que aplica metodos numericos para modelar y simular problemas de abastecimiento, precios y conflicto social en contexto de crisis.
 
+Desarrollado por **Ronald Mendoza Caspa** y **Carla Andrea Enriquez Bravo**.
+
 ---
 
 ## Stack
@@ -41,7 +43,7 @@ src/
   hooks/               # Logica de negocio + schemas Zod
   components/
     layout/             # Navbar, Sidebar, AppLayout
-    shared/             # FormulaDisplay, ResultCard, IterationTable, etc.
+    shared/             # FormulaDisplay, ResultCard, IterationTable, NumberInput, etc.
     ui/                 # shadcn/ui + Magic UI
   modules/              # Cada modulo: page, form, results
     linear-systems/
@@ -52,19 +54,6 @@ src/
   pages/                # HomePage, ConclusionsPage
   types/                # Tipos TypeScript por modulo
 ```
-
----
-
-## Documentacion
-
-| Documento | Descripcion |
-|---|---|
-| [01-SPRINTS.md](./01-SPRINTS.md) | Fases, entregables y timeline |
-| [02-ARQUITECTURA.md](./02-ARQUITECTURA.md) | Stack, carpetas y flujo de datos |
-| [03-DISENO.md](./03-DISENO.md) | Paleta, tipografia, layout |
-| [04-MODELOS-MATEMATICOS.md](./04-MODELOS-MATEMATICOS.md) | Formulas, algoritmos y seudocodigo |
-| [05-COMPONENTES.md](./05-COMPONENTES.md) | Arbol de componentes, props y estados |
-| [06-BUENAS-PRACTICAS.md](./06-BUENAS-PRACTICAS.md) | Codigo, commits, estilo y convenciones |
 
 ---
 

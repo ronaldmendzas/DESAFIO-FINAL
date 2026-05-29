@@ -1,15 +1,14 @@
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { ThemeToggle } from './theme-toggle'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Calculator, Activity, TrendingUp, AreaChart, GitGraph, Home, BookOpen } from 'lucide-react'
 
 const modules = [
   { to: '/sistemas-lineales', label: 'Sistemas Lineales', icon: Calculator },
-  { to: '/raices', label: 'Raíces', icon: GitGraph },
-  { to: '/interpolacion', label: 'Interpolación', icon: TrendingUp },
-  { to: '/integracion', label: 'Integración', icon: AreaChart },
+  { to: '/raices', label: 'Raices', icon: GitGraph },
+  { to: '/interpolacion', label: 'Interpolacion', icon: TrendingUp },
+  { to: '/integracion', label: 'Integracion', icon: AreaChart },
   { to: '/ecuaciones-diferenciales', label: 'EDOs', icon: Activity },
 ]
 
@@ -28,7 +27,7 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[260px] bg-white border-r border-border p-0">
               <div className="pt-8 pb-4 px-5 flex items-center justify-between">
-                <span className="text-[15px] font-semibold text-forest">Yakan <span className="font-light text-text-dim">Keisan</span></span>
+                <span className="text-[15px] font-semibold text-forest tracking-tight">SimNum</span>
                 <button onClick={() => setOpen(false)} className="text-text-secondary hover:text-text">
                   <X className="w-[18px] h-[18px]" />
                 </button>
@@ -38,7 +37,7 @@ export function Navbar() {
                   <Home className="w-[15px] h-[15px]" /> Inicio
                 </NavLink>
                 <div className="h-px bg-border my-3" />
-                <p className="px-3 mb-2 text-[10px] text-text-dim font-medium uppercase tracking-wider">Módulos</p>
+                <p className="px-3 mb-2 text-[10px] text-text-dim font-medium uppercase tracking-wider">Modulos</p>
                 {modules.map(({ to, label, icon: Icon }) => (
                   <NavLink key={to} to={to} onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200 hover:translate-x-0.5 active:scale-95 ${isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'}`}>
                     <Icon className="w-[15px] h-[15px]" /> {label}
@@ -53,12 +52,9 @@ export function Navbar() {
           </Sheet>
 
           <NavLink to="/" className="hidden lg:block">
-            <span className="text-[15px] font-semibold text-forest">Yakan</span>
-            <span className="text-[15px] font-light text-text-dim ml-1">Keisan</span>
+            <span className="text-[15px] font-semibold text-forest tracking-tight">SimNum</span>
           </NavLink>
         </div>
-
-        <ThemeToggle />
       </div>
     </header>
   )

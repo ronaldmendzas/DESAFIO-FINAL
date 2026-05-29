@@ -14,8 +14,7 @@ export function Sidebar() {
     <aside className="hidden lg:flex flex-col w-[220px] min-h-screen border-r border-border bg-white">
       <div className="pt-8 pb-4 px-5">
         <NavLink to="/" className="group">
-          <span className="text-[15px] font-semibold text-forest tracking-tight">Yakan</span>
-          <span className="text-[15px] font-light text-text-dim tracking-tight ml-1">Keisan</span>
+          <span className="text-[15px] font-semibold text-forest tracking-tight">SimNum</span>
         </NavLink>
       </div>
 
