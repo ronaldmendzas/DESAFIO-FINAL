@@ -25,7 +25,7 @@ export function Navbar() {
                 <Menu className="w-[18px] h-[18px]" />
               </button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[260px] bg-white border-r border-border p-0">
+            <SheetContent side="left" showCloseButton={false} className="w-[260px] bg-white border-r border-border p-0">
               <div className="pt-8 pb-4 px-5 flex items-center justify-between">
                 <span className="text-[15px] font-semibold text-forest tracking-tight">SimNum</span>
                 <button onClick={() => setOpen(false)} className="text-text-secondary hover:text-text">
