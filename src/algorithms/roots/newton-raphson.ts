@@ -39,6 +39,16 @@ export function newtonRaphson(
       error,
     })
 
+    if (!Number.isFinite(xNew) || Math.abs(xNew) > 1e12) {
+      return {
+        method: 'newton-raphson',
+        result: NaN,
+        iterations,
+        converged: false,
+        executionTime: performance.now() - start,
+      }
+    }
+
     if (error < tolerance || Math.abs(f(xNew)) < tolerance) {
       return {
         method: 'newton-raphson',

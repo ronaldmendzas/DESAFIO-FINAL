@@ -166,7 +166,9 @@ export function RootsResults({ results, fExpression }: Props) {
               description={
                 result.converged
                   ? `${METHOD_NAMES[result.method]} encontró la raíz x = ${result.result.toFixed(6)} en ${result.iterations.length} iteraciones con error de ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}. En el contexto de abastecimiento, esta raíz representa el punto de equilibrio donde la oferta y demanda se igualan.`
-                  : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método, un intervalo diferente o ajuste la tolerancia.`
+                  : Number.isNaN(result.result) || result.iterations.length < 3
+                    ? `${METHOD_NAMES[result.method]} divergió: los valores crecieron sin límite. Esto ocurre cuando el punto inicial está lejos de la raíz, la derivada se anula, o el intervalo no contiene un cambio de signo. Pruebe con otro método o cambie los valores iniciales.`
+                    : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método, un intervalo diferente o ajuste la tolerancia.`
               }
             />
 

@@ -36,6 +36,16 @@ export function secant(
       error,
     })
 
+    if (!Number.isFinite(x2) || Math.abs(x2) > 1e12) {
+      return {
+        method: 'secant',
+        result: NaN,
+        iterations,
+        converged: false,
+        executionTime: performance.now() - start,
+      }
+    }
+
     if (error < tolerance || Math.abs(f(x2)) < tolerance) {
       return {
         method: 'secant',

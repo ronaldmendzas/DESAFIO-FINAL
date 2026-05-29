@@ -129,10 +129,13 @@ export function LinearSystemsResults({ results }: Props) {
 
           <InterpretationCard
             title="Interpretación"
+            variant={result.converged ? 'success' : 'warning'}
             description={
               result.converged
                 ? `${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones (error: ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}). Los valores de x indican las cantidades a distribuir a cada zona.`
-                : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método o ajuste la tolerancia.`
+                : result.iterations.length < 3
+                  ? `${METHOD_NAMES[result.method]} divergió rápidamente. La matriz no es diagonal dominante — los métodos iterativos no garantizan convergencia. Use LU o cambie los datos para que cada fila tenga el mayor coeficiente en la diagonal.`
+                  : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método, ajuste la tolerancia, o verifique que la matriz sea diagonal dominante.`
             }
           />
 

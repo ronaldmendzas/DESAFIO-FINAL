@@ -8,6 +8,10 @@ function subtractVectors(a: number[], b: number[]): number[] {
   return a.map((val, i) => val - b[i])
 }
 
+function hasDiverged(x: number[]): boolean {
+  return x.some(v => !Number.isFinite(v) || Math.abs(v) > 1e12)
+}
+
 export function jacobi(
   matrix: number[][],
   vector: number[],
@@ -39,6 +43,16 @@ export function jacobi(
       values: [...x],
       error,
     })
+
+    if (hasDiverged(x) || !Number.isFinite(error)) {
+      return {
+        method: 'jacobi',
+        result: x.map(v => Number.isFinite(v) ? v : NaN),
+        iterations,
+        converged: false,
+        executionTime: performance.now() - start,
+      }
+    }
 
     if (error < tolerance) {
       return {

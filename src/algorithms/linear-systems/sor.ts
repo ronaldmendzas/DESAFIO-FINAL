@@ -8,6 +8,10 @@ function subtractVectors(a: number[], b: number[]): number[] {
   return a.map((val, i) => val - b[i])
 }
 
+function hasDiverged(x: number[]): boolean {
+  return x.some(v => !Number.isFinite(v) || Math.abs(v) > 1e12)
+}
+
 export function sor(
   matrix: number[][],
   vector: number[],
@@ -40,6 +44,16 @@ export function sor(
       values: [...x],
       error,
     })
+
+    if (hasDiverged(x) || !Number.isFinite(error)) {
+      return {
+        method: 'sor',
+        result: x.map(v => Number.isFinite(v) ? v : NaN),
+        iterations,
+        converged: false,
+        executionTime: performance.now() - start,
+      }
+    }
 
     if (error < tolerance) {
       return {

@@ -24,6 +24,10 @@ function calculateNorm(v: number[]): number {
   return Math.sqrt(v.reduce((sum, val) => sum + val * val, 0))
 }
 
+function hasDiverged(x: number[]): boolean {
+  return x.some(v => !Number.isFinite(v) || Math.abs(v) > 1e12)
+}
+
 export function conjugateGradient(
   matrix: number[][],
   vector: number[],
@@ -53,6 +57,16 @@ export function conjugateGradient(
       values: [...x],
       error,
     })
+
+    if (hasDiverged(x) || !Number.isFinite(error)) {
+      return {
+        method: 'conjugate-gradient',
+        result: x.map(v => Number.isFinite(v) ? v : NaN),
+        iterations,
+        converged: false,
+        executionTime: performance.now() - start,
+      }
+    }
 
     if (error < tolerance) {
       return {
