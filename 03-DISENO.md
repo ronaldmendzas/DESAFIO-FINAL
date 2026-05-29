@@ -2,9 +2,9 @@
 
 ## Identidad Visual
 
-**Nombre del proyecto:** 夜間計算 — Yakan Keisan (Cálculo Nocturno)
+**Nombre del proyecto:** SimNum
 
-**Concepto:** Un apartamento en Shibuya, 2am, café derramado sobre apuntes de微分方程式. La pantalla brilla en la oscuridad. No es un dashboard corporativo. No es un SaaS. Es una herramienta construida por alguien que necesita entender — y la necesita ahora. Minimal, preciso, con el peso del vacío nocturno. La matemática habla por sí sola. La UI apenas existe. Lo que queda respira.
+**Concepto:** Un apartamento en Shibuya, 2am, café derramado sobre apuntes de ecuaciones diferenciales. La pantalla brilla en la oscuridad. No es un dashboard corporativo. No es un SaaS. Es una herramienta construida por alguien que necesita entender — y la necesita ahora. Minimal, preciso, con el peso del vacío nocturno. La matemática habla por sí sola. La UI apenas existe. Lo que queda respira.
 
 **Mood:** Cyberpunk silencioso. No neon agresivo — neon visto desde un tatami. Terminal limpia. Números que se sienten como código. Oscuro como primera lengua.
 
@@ -121,7 +121,7 @@ Capa overlay ultradelgada sobre todo. No se nota conscientemente pero da profund
 - **Padding de card:** 24px
 - **Sidebar width:** 260px (compacta, no invasion)
 
-La filosofía: **ma** (間) — el espacio vacío es tan importante como el contenido. No amontonar. Dejar respirar.
+La filosofía: **ma** — el espacio vacío es tan importante como el contenido. No amontonar. Dejar respirar.
 
 ---
 
@@ -130,7 +130,7 @@ La filosofía: **ma** (間) — el espacio vacío es tan importante como el cont
 ### Navbar
 
 - Transparente, borrosa: `backdrop-blur-xl bg-void-black/70`
-- Logo "夜間計算" en Geist Mono, cyan, tracking-widest, pequeño glow
+- Logo "SimNum" en Geist Mono, cyan, tracking-widest, pequeño glow
 - A la derecha: toggles minimalistas (tema, idioma si aplica)
 - Línea inferior: `border-bottom: 1px solid #27272A`
 - Altura: 56px, slim
@@ -216,7 +216,7 @@ La estética de los inputs debe sentirse como una terminal, no como un formulari
 - Texto: Geist Sans normal, color ghost-white
 - Label arriba: uppercase "INTERPRETACIÓN" en muted
 
-### FormulaDisplay — Estilo黑板
+### FormulaDisplay — Estilo Terminal
 
 - Fondo `#0A0A0C` con borde `1px solid #27272A`
 - KaTeX renderizado en color lavender `#A78BFA`
@@ -252,7 +252,7 @@ La estética de los inputs debe sentirse como una terminal, no como un formulari
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│  夜間計算   ····  Sistemas  Raíces  Interp  Integral  EDOs  ◐  │
+│  SimNum   ····  Sistemas  Raíces  Interp  Integral  EDOs  ◐  │
 ├──────────┬───────────────────────────────────────────────────────┤
 │          │                                                       │
 │  ◆ Sist. │  SISTEMAS DE ECUACIONES LINEALES                    │
@@ -288,7 +288,7 @@ La estética de los inputs debe sentirse como una terminal, no como un formulari
 │          │  │ la zona sur queda más vulnerable con solo 5.34.  ││
 │          │  └──────────────────────────────────────────────────┘│
 ├──────────┴───────────────────────────────────────────────────────┤
-│  Yakan Keisan v1.0 · Métodos Numéricos · 2025                   │
+│  SimNum v1.0 · Métodos Numéricos · 2025                   │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -309,12 +309,12 @@ La estética de los inputs debe sentirse como una terminal, no como un formulari
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  夜間計算                                               ◐    │
+│  SimNum                                               ◐    │
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
 │                                                              │
-│              夜間計算                                         │
-│              YAKAN KEISAN                                    │
+│              SimNum                                         │
+│              SIMNUM                                         │
 │                                                              │
 │      Simulación numérica de abastecimiento,                  │
 │      precios y conflicto social en crisis.                   │
@@ -347,7 +347,7 @@ La estética de los inputs debe sentirse como una terminal, no como un formulari
 
 El hero tiene:
 - Logo en Geist Mono uppercase con cyan glow
-- Tipo animación: efecto typewriter que escribe "YAKAN KEISAN"
+- Tipo animación: efecto typewriter que escribe "SIMNUM"
 - Dot grid visible sutilmente de fondo
 - Scanlines ultradelgadas
 - Cards de módulos con hover glow cyan
@@ -397,6 +397,6 @@ Un ◇ (diamond) en cyan sobre fondo negro. SVG simple.
 
 ### SEO
 
-- Title: "夜間計算 — Simulación Numérica de Crisis"
+- Title: "SimNum — Simulación Numérica de Crisis"
 - Description: "Simulación interactiva de abastecimiento, precios y conflicto social usando métodos numéricos."
 - Og-image: captura del hero con el título visible
