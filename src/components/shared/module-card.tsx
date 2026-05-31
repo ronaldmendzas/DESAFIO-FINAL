@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 type Props = {
   title: string
   description: string
@@ -7,8 +9,8 @@ type Props = {
 
 export function ModuleCard({ title, description, icon, to }: Props) {
   return (
-    <a
-      href={to}
+    <Link
+      to={to}
       className="group block bg-deep-night border border-subtle-edge rounded-lg p-6 transition-all duration-300 hover:border-neon-edge hover:shadow-[0_0_30px_rgba(6,214,160,0.1)]"
     >
       <div className="flex items-start gap-4">
@@ -24,6 +26,6 @@ export function ModuleCard({ title, description, icon, to }: Props) {
           </p>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
