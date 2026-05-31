@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@/theme/theme-provider'
 import { AppLayout } from '@/components/layout/app-layout'
 import { HomePage } from '@/pages/home-page'
@@ -12,7 +12,7 @@ import { ConclusionsPage } from '@/pages/conclusions-page'
 export function App() {
   return (
     <ThemeProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
             <Route index element={<HomePage />} />
@@ -24,7 +24,7 @@ export function App() {
             <Route path="/conclusiones" element={<ConclusionsPage />} />
           </Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
