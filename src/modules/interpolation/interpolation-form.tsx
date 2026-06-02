@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { NumberInput } from '@/components/shared/number-input'
@@ -14,6 +14,12 @@ import type { InterpolationMethod } from '@/types/interpolation'
 
 type DataPoint = { x: number; y: number }
 
+type ScenarioData = {
+  points: DataPoint[]
+  evaluateAt: number
+  method: InterpolationMethod
+}
+
 type Props = {
   onCalculate: (data: {
     points: DataPoint[]
@@ -22,6 +28,7 @@ type Props = {
   }) => void
   onReset: () => void
   isCalculating: boolean
+  defaultData?: ScenarioData | null
 }
 
 const METHODS: { id: InterpolationMethod; label: string }[] = [
@@ -39,10 +46,18 @@ const DEFAULT_POINTS: DataPoint[] = [
   { x: 30, y: 22 },
 ]
 
-export function InterpolationForm({ onCalculate, onReset, isCalculating }: Props) {
+export function InterpolationForm({ onCalculate, onReset, isCalculating, defaultData }: Props) {
   const [points, setPoints] = useState<DataPoint[]>(DEFAULT_POINTS)
   const [method, setMethod] = useState<InterpolationMethod>('lagrange')
   const [evaluateAt, setEvaluateAt] = useState('7')
+
+  useEffect(() => {
+    if (defaultData) {
+      setPoints(defaultData.points.map(p => ({ ...p })))
+      setEvaluateAt(String(defaultData.evaluateAt))
+      setMethod(defaultData.method)
+    }
+  }, [defaultData])
 
   const handlePointChange = (index: number, field: 'x' | 'y', value: string) => {
     const newPoints = points.map((p, i) =>
