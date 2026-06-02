@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { RootsForm } from './roots-form'
 import { RootsResults } from './roots-results'
 import { useRoots } from '@/hooks/use-roots'
 import { FormulaDisplay } from '@/components/shared/formula-display'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ScenarioCard } from '@/components/shared/scenario-card'
+import { scenarioE } from '@/data/scenarios'
 import type { RootMethod } from '@/types/roots'
 
 const FORMULAS: Record<string, string> = {
@@ -17,6 +19,8 @@ export function RootsPage() {
   const { results, isCalculating, error, calculate, reset } = useRoots()
   const [activeMethod, setActiveMethod] = useState<RootMethod>('bisection')
   const [fExpression, setFExpression] = useState('x^3 - 6*x^2 + 11*x - 6')
+  const [scenarioData, setScenarioData] = useState<typeof scenarioE.data | null>(null)
+  const [formKey, setFormKey] = useState(0)
 
   const handleCalculate = (data: {
     fExpression: string
@@ -33,9 +37,19 @@ export function RootsPage() {
     calculate(data)
   }
 
-  const handleReset = () => {
+  const loadScenario = () => {
+    setActiveMethod(scenarioE.data.method)
+    setScenarioData(scenarioE.data)
+    setFormKey(prev => prev + 1)
     reset()
   }
+
+  useEffect(() => {
+    if (scenarioData) {
+      const timeout = setTimeout(() => setScenarioData(null), 100)
+      return () => clearTimeout(timeout)
+    }
+  }, [scenarioData])
 
   return (
     <div className="space-y-8">
@@ -49,6 +63,17 @@ export function RootsPage() {
         </p>
       </motion.div>
 
+      <div className="space-y-2">
+        <p className="text-[11px] text-text-dim font-medium uppercase tracking-wider">Escenario de crisis</p>
+        <ScenarioCard
+          letter={scenarioE.letter}
+          title={scenarioE.title}
+          narrative={scenarioE.narrative}
+          questions={scenarioE.questions}
+          onLoad={loadScenario}
+        />
+      </div>
+
       <Tabs value={activeMethod} onValueChange={(v) => setActiveMethod(v as RootMethod)}>
         <TabsList className="bg-surface border border-border h-auto p-0.5 flex-wrap gap-0.5">
           <TabsTrigger value="bisection" className="text-[12px] font-mono data-[state=active]:bg-forest data-[state=active]:text-white rounded px-3 py-1">Bisección</TabsTrigger>
@@ -60,7 +85,7 @@ export function RootsPage() {
           <TabsContent key={method} value={method} className="mt-6 space-y-6">
             <FormulaDisplay latex={formula} label={method} />
             <div className="bg-white border border-border rounded-lg p-5">
-              <RootsForm onCalculate={handleCalculate} onReset={handleReset} isCalculating={isCalculating} />
+              <RootsForm key={formKey} onCalculate={handleCalculate} onReset={reset} isCalculating={isCalculating} defaultData={scenarioData} />
             </div>
             {error && (
               <p className="text-red text-[13px] font-mono">{error}</p>

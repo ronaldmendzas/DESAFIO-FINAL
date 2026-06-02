@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
@@ -12,6 +12,18 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import type { RootMethod } from '@/types/roots'
+
+type ScenarioData = {
+  fExpression: string
+  fPrimeExpression?: string
+  a?: number
+  b?: number
+  x0?: number
+  x1?: number
+  tolerance: number
+  maxIterations: number
+  method: RootMethod
+}
 
 type Props = {
   onCalculate: (data: {
@@ -27,6 +39,7 @@ type Props = {
   }) => void
   onReset: () => void
   isCalculating: boolean
+  defaultData?: ScenarioData | null
 }
 
 const METHODS: { id: RootMethod; label: string }[] = [
@@ -35,7 +48,7 @@ const METHODS: { id: RootMethod; label: string }[] = [
   { id: 'secant', label: 'Secante' },
 ]
 
-export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
+export function RootsForm({ onCalculate, onReset, isCalculating, defaultData }: Props) {
   const [fExpression, setFExpression] = useState('x^3 - 6*x^2 + 11*x - 6')
   const [fPrimeExpression, setFPrimeExpression] = useState('3*x^2 - 12*x + 11')
   const [method, setMethod] = useState<RootMethod>('bisection')
@@ -45,6 +58,20 @@ export function RootsForm({ onCalculate, onReset, isCalculating }: Props) {
   const [x1, setX1] = useState('3')
   const [tolerance, setTolerance] = useState('0.000001')
   const [maxIterations, setMaxIterations] = useState('100')
+
+  useEffect(() => {
+    if (defaultData) {
+      setFExpression(defaultData.fExpression)
+      if (defaultData.fPrimeExpression) setFPrimeExpression(defaultData.fPrimeExpression)
+      if (defaultData.a !== undefined) setA(String(defaultData.a))
+      if (defaultData.b !== undefined) setB(String(defaultData.b))
+      if (defaultData.x0 !== undefined) setX0(String(defaultData.x0))
+      if (defaultData.x1 !== undefined) setX1(String(defaultData.x1))
+      setTolerance(String(defaultData.tolerance))
+      setMaxIterations(String(defaultData.maxIterations))
+      setMethod(defaultData.method)
+    }
+  }, [defaultData])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
