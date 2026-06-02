@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
@@ -13,6 +13,14 @@ import {
 } from '@/components/ui/select'
 import type { IntegrationMethod } from '@/types/integration'
 
+type ScenarioData = {
+  fExpression: string
+  a: number
+  b: number
+  n: number
+  method: IntegrationMethod
+}
+
 type Props = {
   onCalculate: (data: {
     fExpression: string
@@ -23,6 +31,7 @@ type Props = {
   }) => void
   onReset: () => void
   isCalculating: boolean
+  defaultData?: ScenarioData | null
 }
 
 const METHODS: { id: IntegrationMethod; label: string }[] = [
@@ -31,12 +40,22 @@ const METHODS: { id: IntegrationMethod; label: string }[] = [
   { id: 'simpson-3-8', label: 'Simpson 3/8' },
 ]
 
-export function IntegrationForm({ onCalculate, onReset, isCalculating }: Props) {
+export function IntegrationForm({ onCalculate, onReset, isCalculating, defaultData }: Props) {
   const [fExpression, setFExpression] = useState('0.5*x + 8')
   const [a, setA] = useState('0')
   const [b, setB] = useState('30')
   const [n, setN] = useState('10')
   const [method, setMethod] = useState<IntegrationMethod>('trapezoidal')
+
+  useEffect(() => {
+    if (defaultData) {
+      setFExpression(defaultData.fExpression)
+      setA(String(defaultData.a))
+      setB(String(defaultData.b))
+      setN(String(defaultData.n))
+      setMethod(defaultData.method)
+    }
+  }, [defaultData])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
