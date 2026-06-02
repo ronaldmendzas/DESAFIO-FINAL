@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { LinearSystemsForm } from './linear-systems-form'
 import { LinearSystemsResults } from './linear-systems-results'
 import { useLinearSystem } from '@/hooks/use-linear-system'
 import { FormulaDisplay } from '@/components/shared/formula-display'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ScenarioCard } from '@/components/shared/scenario-card'
+import { scenarioA, scenarioF } from '@/data/scenarios'
 import type { LinearSystemMethod } from '@/types/linear-systems'
 
 const FORMULAS: Record<string, string> = {
@@ -15,9 +17,20 @@ const FORMULAS: Record<string, string> = {
   'conjugate-gradient': '\\alpha_k = \\frac{r_k^T r_k}{p_k^T A p_k}, \\quad x_{k+1} = x_k + \\alpha_k p_k',
 }
 
+type ScenarioData = {
+  matrix: number[][]
+  vector: number[]
+  method: LinearSystemMethod
+  tolerance: number
+  maxIterations: number
+  omega?: number
+}
+
 export function LinearSystemsPage() {
   const { results, isCalculating, error, calculate, reset } = useLinearSystem()
   const [activeMethod, setActiveMethod] = useState<LinearSystemMethod>('jacobi')
+  const [scenarioData, setScenarioData] = useState<ScenarioData | null>(null)
+  const [formKey, setFormKey] = useState(0)
 
   const handleCalculate = (data: {
     matrix: number[][]
@@ -30,6 +43,22 @@ export function LinearSystemsPage() {
     calculate(data)
   }
 
+  const loadScenario = (data: ScenarioData) => {
+    setActiveMethod(data.method)
+    setScenarioData(data)
+    setFormKey(prev => prev + 1)
+    reset()
+  }
+
+  useEffect(() => {
+    if (scenarioData) {
+      const timeout = setTimeout(() => setScenarioData(null), 100)
+      return () => clearTimeout(timeout)
+    }
+  }, [scenarioData])
+
+  const scenarios = [scenarioA, scenarioF]
+
   return (
     <div className="space-y-8">
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
@@ -38,9 +67,23 @@ export function LinearSystemsPage() {
           Sistemas de Ecuaciones Lineales
         </h1>
         <p className="text-text-secondary text-[13px] mt-1.5 leading-relaxed">
-          Distribución de productos desde plantas de acopio hacia zonas resolviendo Ax = b.
+          Distribución de productos desde plantas de acopio hacia zonas resolviendo Ax = b. Incluye descomposición LU como método directo.
         </p>
       </motion.div>
+
+      <div className="space-y-2">
+        <p className="text-[11px] text-text-dim font-medium uppercase tracking-wider">Escenarios de crisis</p>
+        {scenarios.map((s) => (
+          <ScenarioCard
+            key={s.id}
+            letter={s.letter}
+            title={s.title}
+            narrative={s.narrative}
+            questions={s.questions}
+            onLoad={() => loadScenario(s.data)}
+          />
+        ))}
+      </div>
 
       <Tabs value={activeMethod} onValueChange={(v) => setActiveMethod(v as LinearSystemMethod)}>
         <TabsList className="bg-surface border border-border h-auto p-0.5 flex-wrap gap-0.5">
@@ -55,7 +98,13 @@ export function LinearSystemsPage() {
           <TabsContent key={method} value={method} className="mt-6 space-y-6">
             <FormulaDisplay latex={formula} label={method} />
             <div className="bg-white border border-border rounded-lg p-5">
-              <LinearSystemsForm onCalculate={handleCalculate} onReset={reset} isCalculating={isCalculating} />
+              <LinearSystemsForm
+                key={formKey}
+                onCalculate={handleCalculate}
+                onReset={reset}
+                isCalculating={isCalculating}
+                defaultData={scenarioData}
+              />
             </div>
             {error && (
               <p className="text-red text-[13px] font-mono">{error}</p>

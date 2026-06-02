@@ -131,11 +131,13 @@ export function LinearSystemsResults({ results }: Props) {
             title="Interpretación"
             variant={result.converged ? 'success' : 'warning'}
             description={
-              result.converged
-                ? `${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones (error: ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}). Los valores de x indican las cantidades a distribuir a cada zona.`
-                : result.iterations.length < 3
-                  ? `${METHOD_NAMES[result.method]} divergió rápidamente. La matriz no es diagonal dominante — los métodos iterativos no garantizan convergencia. Use LU o cambie los datos para que cada fila tenga el mayor coeficiente en la diagonal.`
-                  : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método, ajuste la tolerancia, o verifique que la matriz sea diagonal dominante.`
+              result.method === 'lu'
+                ? `${METHOD_NAMES[result.method]} descompuso la matriz A en L (triangular inferior) y U (triangular superior), luego resolvió Ly = b por sustitución hacia adelante y Ux = y por sustitución regresiva. Al ser un método directo, no requiere iteraciones: la solución es exacta (salvo redondeo). Los valores de x representan las cantidades a distribuir a cada zona. ${result.decomposition ? 'Las matrices L y U se muestran arriba.' : ''}`
+                : result.converged
+                  ? `${METHOD_NAMES[result.method]} convergió en ${result.iterations.length} iteraciones (error: ${result.iterations[result.iterations.length - 1]?.error.toExponential(4)}). Los valores de x indican las cantidades a distribuir a cada zona.`
+                  : result.iterations.length < 3
+                    ? `${METHOD_NAMES[result.method]} divergió rápidamente. La matriz no es diagonal dominante — los métodos iterativos no garantizan convergencia. Use LU o cambie los datos para que cada fila tenga el mayor coeficiente en la diagonal.`
+                    : `${METHOD_NAMES[result.method]} no convergió en ${result.iterations.length} iteraciones. Pruebe con otro método, ajuste la tolerancia, o verifique que la matriz sea diagonal dominante.`
             }
           />
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { NumberInput } from '@/components/shared/number-input'
@@ -23,6 +23,14 @@ type Props = {
   }) => void
   onReset: () => void
   isCalculating: boolean
+  defaultData?: {
+    matrix: number[][]
+    vector: number[]
+    method: LinearSystemMethod
+    tolerance: number
+    maxIterations: number
+    omega?: number
+  } | null
 }
 
 const METHODS: { id: LinearSystemMethod; label: string }[] = [
@@ -41,7 +49,7 @@ const DEFAULT_MATRIX_3X3 = [
 
 const DEFAULT_VECTOR_3 = [7, -8, 6]
 
-export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props) {
+export function LinearSystemsForm({ onCalculate, onReset, isCalculating, defaultData }: Props) {
   const [matrix, setMatrix] = useState<string[][]>(DEFAULT_MATRIX_3X3.map(r => r.map(String)))
   const [vector, setVector] = useState<string[]>(DEFAULT_VECTOR_3.map(String))
   const [tolerance, setTolerance] = useState('0.000001')
@@ -49,6 +57,19 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
   const [method, setMethod] = useState<LinearSystemMethod>('jacobi')
   const [omega, setOmega] = useState('1.5')
   const [size, setSize] = useState<3 | 4 | 5>(3)
+
+  useEffect(() => {
+    if (defaultData) {
+      setMatrix(defaultData.matrix.map(r => r.map(v => String(v))))
+      setVector(defaultData.vector.map(v => String(v)))
+      setTolerance(String(defaultData.tolerance))
+      setMaxIterations(String(defaultData.maxIterations))
+      setMethod(defaultData.method)
+      if (defaultData.omega) setOmega(String(defaultData.omega))
+      const n = defaultData.matrix.length
+      if (n === 4 || n === 5) setSize(n as 3 | 4 | 5)
+    }
+  }, [defaultData])
 
   const handleSizeChange = (newSize: 3 | 4 | 5) => {
     setSize(newSize)
@@ -133,9 +154,9 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-white border-border">
-              <SelectItem value="3" className="font-mono text-[12px]">3×3</SelectItem>
-              <SelectItem value="4" className="font-mono text-[12px]">4×4</SelectItem>
-              <SelectItem value="5" className="font-mono text-[12px]">5×5</SelectItem>
+              <SelectItem value="3" className="font-mono text-[12px]">3x3</SelectItem>
+              <SelectItem value="4" className="font-mono text-[12px]">4x4</SelectItem>
+              <SelectItem value="5" className="font-mono text-[12px]">5x5</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -198,7 +219,7 @@ export function LinearSystemsForm({ onCalculate, onReset, isCalculating }: Props
 
       {method === 'sor' && (
         <div>
-          <Label className="text-[11px] text-text-dim mb-1.5 block">Parámetro ω</Label>
+          <Label className="text-[11px] text-text-dim mb-1.5 block">Parámetro omega</Label>
           <NumberInput
             value={omega}
             onChange={setOmega}
