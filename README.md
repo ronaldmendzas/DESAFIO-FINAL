@@ -56,11 +56,15 @@ En el contexto actual que atraviesa el pais, se observan problemas relacionados 
 
 ## Escenarios implementados
 
-- **Escenario A:** Distribucion de abastecimiento y red de transporte (sistemas lineales)
-- **Escenario B:** Vaciado critico de reservas en plantas de carburantes (EDOs)
-- **Escenario C:** Desabastecimiento de alimentos y curva continua de precios (interpolacion)
-- **Escenario D:** Costo acumulado y perdida del poder adquisitivo familiar (integracion)
-- **Escenario E:** Umbrales criticos de abastecimiento, precio limite, demanda maxima (raices)
+- **Escenario A:** Optimizacion del abastecimiento y red de transporte (sistemas lineales — Jacobi, Gauss-Seidel, SOR, LU, Gradiente Conjugado)
+- **Escenario B:** Vaciado critico de reservas en plantas de carburantes (EDOs — Euler, Heun, RK4)
+- **Escenario C:** Desabastecimiento de alimentos y curva continua de precios (interpolacion — Lagrange, Newton, Splines Cubicos)
+- **Escenario D:** Costo acumulado y perdida del poder adquisitivo familiar (integracion — Trapecio, Simpson 1/3, Simpson 3/8)
+- **Escenario E:** Umbrales criticos de abastecimiento, precio limite, demanda maxima (raices — Biseccion, Newton-Raphson, Secante)
+- **Escenario F:** Rumores de desabastecimiento y panico en la red de distribucion (sistemas lineales mal condicionados — LU con matriz de Hilbert)
+- **Escenario G:** Modelo de difusion de opinion y descontento social NMD (EDOs — Euler, Heun, RK4)
+
+Cada escenario incluye narrativa del problema, datos pre-cargados con boton "Cargar escenario", preguntas del enunciado, y conclusiones con respuestas especificas.
 
 ---
 
@@ -102,7 +106,7 @@ src/
     interpolation/
     integration/
     odes/
-  pages/                # HomePage, ConclusionsPage
+  pages/                # HomePage, ScenariosPage, ConclusionsPage
   types/                # Tipos TypeScript por modulo
 ```
 
@@ -148,11 +152,11 @@ npm run preview # Preview del build
 | N | Criterio | Pts | Cumplido | Observacion |
 |---|---|---|---|---|
 | 1 | Presenta claramente el contexto del problema real | 5 | Si | Pagina de inicio y cada modulo explican el contexto |
-| 2 | Aplica correctamente sistemas de ecuaciones lineales | 6 | Si | 5 metodos: Jacobi, Gauss-Seidel, SOR, LU, Gradiente Conjugado |
-| 3 | Aplica correctamente metodos de raices de ecuaciones | 6 | Si | 3 metodos: Biseccion, Newton-Raphson, Secante |
-| 4 | Aplica correctamente interpolacion | 6 | Si | 3 metodos: Lagrange, Newton, Splines Cubicos |
-| 5 | Aplica correctamente integracion numerica | 6 | Si | 3 metodos: Trapecio, Simpson 1/3, Simpson 3/8 |
-| 6 | Aplica correctamente ecuaciones diferenciales | 6 | Si | 3 metodos: Euler, Heun, Runge-Kutta 4 |
+| 2 | Aplica correctamente sistemas de ecuaciones lineales | 6 | Si | 5 metodos: Jacobi, Gauss-Seidel, SOR, LU, Gradiente Conjugado. Escenarios A y F |
+| 3 | Aplica correctamente metodos de raices de ecuaciones | 6 | Si | 3 metodos: Biseccion, Newton-Raphson, Secante. Escenario E |
+| 4 | Aplica correctamente interpolacion | 6 | Si | 3 metodos: Lagrange, Newton, Splines Cubicos. Escenario C |
+| 5 | Aplica correctamente integracion numerica | 6 | Si | 3 metodos: Trapecio, Simpson 1/3, Simpson 3/8. Escenario D |
+| 6 | Aplica correctamente ecuaciones diferenciales | 6 | Si | 3 metodos: Euler, Heun, Runge-Kutta 4. Escenarios B y G |
 | 7 | La pagina web es interactiva y permite ingresar datos | 5 | Si | Formularios con validacion en cada modulo |
 | 8 | Muestra resultados en pantalla mediante tablas, textos y graficos | 5 | Si | ResultCards, IterationTable, Recharts, InterpretationCard |
 | 9 | Interpreta los resultados de manera clara y critica | 5 | Si | InterpretationCard en cada resultado |
@@ -160,7 +164,7 @@ npm run preview # Preview del build
 | 11 | El codigo esta organizado | 4 | Si | TypeScript estricto, carpetas por modulo, hooks, algoritmos separados |
 | 12 | El repositorio Git esta completo y ordenado | 3 | Si | Commits convencionales, 7 docs de arquitectura |
 | 13 | La pagina esta publicada correctamente en la web | 4 | Si | Vercel deployment |
-| 14 | Incluye conclusiones y limitaciones del modelo | 5 | Si | Pagina de conclusiones con hallazgos, limitaciones y referencias |
+| 14 | Incluye conclusiones y limitaciones del modelo | 5 | Si | Pagina de conclusiones con respuestas por escenario A-G, metodo util por modulo, limitaciones y mejoras |
 | **Total** | | **70** | **70** | |
 
 ---
