@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { GodButton } from '@/components/shared/god-button'
 import { Input } from '@/components/ui/input'
@@ -13,6 +13,15 @@ import {
 } from '@/components/ui/select'
 import type { OdeMethod } from '@/types/odes'
 
+type ScenarioData = {
+  fExpression: string
+  t0: number
+  y0: number
+  tFinal: number
+  h: number
+  method: OdeMethod
+}
+
 type Props = {
   onCalculate: (data: {
     fExpression: string
@@ -24,6 +33,7 @@ type Props = {
   }) => void
   onReset: () => void
   isCalculating: boolean
+  defaultData?: ScenarioData | null
 }
 
 const METHODS: { id: OdeMethod; label: string }[] = [
@@ -32,13 +42,24 @@ const METHODS: { id: OdeMethod; label: string }[] = [
   { id: 'rk4', label: 'Runge-Kutta 4' },
 ]
 
-export function OdesForm({ onCalculate, onReset, isCalculating }: Props) {
+export function OdesForm({ onCalculate, onReset, isCalculating, defaultData }: Props) {
   const [fExpression, setFExpression] = useState('-0.05 * y')
   const [t0, setT0] = useState('0')
   const [y0, setY0] = useState('1000')
   const [tFinal, setTFinal] = useState('60')
   const [h, setH] = useState('1')
   const [method, setMethod] = useState<OdeMethod>('euler')
+
+  useEffect(() => {
+    if (defaultData) {
+      setFExpression(defaultData.fExpression)
+      setT0(String(defaultData.t0))
+      setY0(String(defaultData.y0))
+      setTFinal(String(defaultData.tFinal))
+      setH(String(defaultData.h))
+      setMethod(defaultData.method)
+    }
+  }, [defaultData])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
