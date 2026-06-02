@@ -37,7 +37,7 @@ export function HomePage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-text-secondary text-[14px] mt-5 max-w-md leading-relaxed"
         >
-          Cinco módulos. Quince métodos. Abastecimiento, precios y conflicto social modelados con métodos numéricos.
+          Cinco módulos. Quince métodos. Siete escenarios de crisis modelados con métodos numéricos: abastecimiento, precios, reservas, rumores y descontento social.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
