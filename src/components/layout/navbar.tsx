@@ -2,7 +2,7 @@ import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Calculator, Activity, TrendingUp, AreaChart, GitGraph, Home, BookOpen } from 'lucide-react'
+import { Calculator, Activity, TrendingUp, AreaChart, GitGraph, Home, BookOpen, Zap } from 'lucide-react'
 
 const modules = [
   { to: '/sistemas-lineales', label: 'Sistemas Lineales', icon: Calculator },
@@ -44,6 +44,9 @@ export function Navbar() {
                   </NavLink>
                 ))}
                 <div className="h-px bg-border my-3" />
+                <NavLink to="/escenarios" onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200 hover:translate-x-0.5 active:scale-95 ${isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'}`}>
+                  <Zap className="w-[15px] h-[15px]" /> Escenarios
+                </NavLink>
                 <NavLink to="/conclusiones" onClick={() => setOpen(false)} className={({ isActive }) => `flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200 hover:translate-x-0.5 active:scale-95 ${isActive ? 'text-forest bg-forest-bg font-medium' : 'text-text-secondary hover:text-forest hover:bg-forest-bg/50'}`}>
                   <BookOpen className="w-[15px] h-[15px]" /> Conclusiones
                 </NavLink>

@@ -8,6 +8,7 @@ import { InterpolationPage } from '@/modules/interpolation/interpolation-page'
 import { IntegrationPage } from '@/modules/integration/integration-page'
 import { OdesPage } from '@/modules/odes/odes-page'
 import { ConclusionsPage } from '@/pages/conclusions-page'
+import { ScenariosPage } from '@/pages/scenarios-page'
 
 export function App() {
   return (
@@ -21,6 +22,7 @@ export function App() {
             <Route path="/interpolacion" element={<InterpolationPage />} />
             <Route path="/integracion" element={<IntegrationPage />} />
             <Route path="/ecuaciones-diferenciales" element={<OdesPage />} />
+            <Route path="/escenarios" element={<ScenariosPage />} />
             <Route path="/conclusiones" element={<ConclusionsPage />} />
           </Route>
         </Routes>
