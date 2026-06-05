@@ -6,6 +6,7 @@ import { useRoots } from '@/hooks/use-roots'
 import { FormulaDisplay } from '@/components/shared/formula-display'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScenarioCard } from '@/components/shared/scenario-card'
+import { ScenarioApplication } from '@/components/shared/scenario-application'
 import { scenarioE } from '@/data/scenarios'
 import type { RootMethod } from '@/types/roots'
 
@@ -13,6 +14,44 @@ const FORMULAS: Record<string, string> = {
   bisection: 'x_{k+1} = \\frac{a_k + b_k}{2}',
   'newton-raphson': 'x_{k+1} = x_k - \\frac{f(x_k)}{f\'(x_k)}',
   secant: 'x_{k+1} = x_k - \\frac{f(x_k)(x_k - x_{k-1})}{f(x_k) - f(x_{k-1})}',
+}
+
+const scenarioEApplication = {
+  letter: 'E',
+  title: 'Umbrales críticos de abastecimiento',
+  narrative:
+    'Una familia gana Bs. 800 al mes. El gasto acumulado en alimentos sigue la función f(x) = 0.5x² + 8x + 200, donde x es el día del mes. Queremos saber: ¿a partir de qué día el gasto acumulado supera los Bs. 800? Ese es el umbral donde la familia ya no aguanta — donde el poder adquisitivo se cae. Encontrar ese día es encontrar la raíz de f(x) = 0.5x² + 8x + 200 - 800.',
+  relation:
+    'Buscar la raíz de f(x) = 0 es encontrar el día exacto donde el gasto supera el ingreso. Bisección parte un intervalo a la mitad hasta encontrar el cambio de signo — es lento pero seguro. Newton-Raphson usa la derivada para ir más rápido, pero necesitás saber la derivada y arrancar cerca de la raíz. Secante es un punto intermedio: no necesita derivada pero puede fallar si arrancás mal.',
+  questions: [
+    {
+      question: '¿En qué punto el costo acumulado supera el ingreso familiar?',
+      answer:
+        'La raíz está en x ≈ 27.55 días. Eso significa que a partir del día 27 del mes, el gasto acumulado ya supera los Bs. 800 que gana la familia. En la última semana del mes ya está en déficit.',
+    },
+    {
+      question: '¿Qué método converge más rápido?',
+      answer:
+        'Newton-Raphson converge en unas 4 iteraciones — va directo al grano si le das un buen punto de arranque. Secante tarda unas 6. Bisección necesita como 26 iteraciones porque va partiendo a la mitad cada vez. Si tenés la derivada y un punto cercano, Newton es el campeón.',
+    },
+    {
+      question: '¿Qué tan robusto es cada método ante distintos puntos iniciales?',
+      answer:
+        'Bisección es el más confiable: si hay cambio de signo en el intervalo, siempre llega, no importa qué tan fea sea la función. Newton-Raphson es exigente — si arrancás lejos o la derivada es casi cero, se puede ir por las nubes o quedar ciclando. Secante está en el medio: no pide derivada pero también puede diverger.',
+    },
+    {
+      question: '¿Cuál es la sensibilidad a la condición inicial?',
+      answer:
+        'Newton-Raphson es sensible: cerca de la raíz vuela, lejos se puede perder. Secante depende de los dos puntos iniciales que le des. Bisección no le importa dónde arranques, solo necesita que f(a) y f(b) tengan signos opuestos. Para este problema, arrancar entre 0 y 50 funciona bien con los tres.',
+    },
+    {
+      question: '¿Cuál es el orden de convergencia estimado de cada método?',
+      answer:
+        'Bisección es lineal (orden 1): en cada paso reduce el error a la mitad. Newton-Raphson es cuadrático (orden 2): duplica los dígitos correctos en cada paso — por eso converge tan rápido. Secante es superlineal (orden ≈1.618): más rápido que bisección, más lento que Newton. Para encontrar umbrales críticos, la elección depende de qué tanto sepas de la función.',
+    },
+  ],
+  conclusion:
+    'La raíz x ≈ 27.6 dice que una familia que gana Bs. 800 pierde su poder adquisitivo en la última semana del mes. Newton-Raphson es el más rápido si tenés la derivada y arrancás cerca. Si no sabés nada de la función, bisección es el seguro de vida. Y secante es un buen balance. Lo importante de este ejercicio es que los métodos numéricos nos permiten encontrar un umbral concreto — un día específico — donde la situación deja de ser sostenible.',
 }
 
 export function RootsPage() {
@@ -71,6 +110,18 @@ export function RootsPage() {
           narrative={scenarioE.narrative}
           questions={scenarioE.questions}
           onLoad={loadScenario}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-[11px] text-text-dim font-medium uppercase tracking-wider">Aplicación al escenario</p>
+        <ScenarioApplication
+          letter={scenarioEApplication.letter}
+          title={scenarioEApplication.title}
+          narrative={scenarioEApplication.narrative}
+          relation={scenarioEApplication.relation}
+          questions={scenarioEApplication.questions}
+          conclusion={scenarioEApplication.conclusion}
         />
       </div>
 

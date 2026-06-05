@@ -225,7 +225,7 @@ export const scenarioB: OdeScenario = {
   letter: 'B',
   title: 'Vaciado crítico de reservas en plantas de carburantes',
   narrative:
-    'Una planta de carburantes tiene una reserva inicial de 1000 unidades. El reabastecimiento es de 50 unidades/día y el consumo es de 80 unidades/día, lo que da un déficit neto de 30 unidades/día. La reserva cambia según R\'(t) = -0.03R, modelando el decaimiento exponencial de las reservas. ¿En cuántos días la reserva llega al nivel crítico de 100 unidades?',
+    'Una planta de carburantes tiene una reserva inicial de 1000 unidades. La tasa de vaciado es proporcional a la reserva: R\'(t) = -0.03R. Al inicio esto equivale a una pérdida de 1000 × 0.03 = 30 unidades/día, pero a medida que la reserva baja, la tasa se desacelera. ¿En cuántos días la reserva llega al nivel crítico de 100 unidades?',
   module: 'ecuaciones-diferenciales',
   questions: [
     { question: '¿En cuántos días la reserva llega a un nivel crítico?' },
@@ -238,7 +238,7 @@ export const scenarioB: OdeScenario = {
     fExpression: '-0.03 * y',
     t0: 0,
     y0: 1000,
-    tFinal: 60,
+    tFinal: 80,
     h: 1,
     method: 'euler',
   },

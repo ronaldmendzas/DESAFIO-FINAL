@@ -13,21 +13,21 @@ const modules = [
     title: 'Raíces de Ecuaciones',
     methods: 'Bisección, Newton-Raphson, Secante',
     scenarios: 'E (Umbrales críticos)',
-    insight: 'En el Escenario E, la raíz de f(x) = 0.5x² + 8x + 200 - 800 representa el día en que el gasto acumulado supera el ingreso familiar de Bs. 800. Bisección siempre converge si hay cambio de signo pero es lento; Newton-Raphson converge cuadráticamente pero requiere derivada; Secante no necesita derivada pero puede diverger. La raíz encontrada (~17.4 días) marca el umbral de pérdida del poder adquisitivo.',
+    insight: 'En el Escenario E, la raíz de f(x) = 0.5x² + 8x + 200 - 800 representa el día en que el gasto acumulado supera el ingreso familiar de Bs. 800. Bisección siempre converge si hay cambio de signo pero es lento; Newton-Raphson converge cuadráticamente pero requiere derivada; Secante no necesita derivada pero puede diverger. La raíz encontrada (~27.6 días) marca el umbral de pérdida del poder adquisitivo.',
   },
   {
     number: '03',
     title: 'Interpolación',
     methods: 'Lagrange, Newton, Splines Cúbicos',
     scenarios: 'C (Curva de precios)',
-    insight: 'En el Escenario C, con datos del precio de la papa en días 1, 5, 10, 15, 20 y 30 del mes, la interpolación reconstruye la curva continua de precios. Lagrange y Newton coinciden en los datos pero difieren al extrapolar. Los splines cúbicos evitan oscilaciones del fenómeno de Runge. El precio estimado en el día 7 (~11.3 Bs) permite planificar compras en días sin dato oficial.',
+    insight: 'En el Escenario C, con datos del precio de la papa en días 1, 5, 10, 15, 20 y 30 del mes, la interpolación reconstruye la curva continua de precios. Lagrange y Newton coinciden en los datos pero difieren al extrapolar. Los splines cúbicos evitan oscilaciones del fenómeno de Runge. El precio estimado en el día 7 (~11.18 Bs) permite planificar compras en días sin dato oficial.',
   },
   {
     number: '04',
     title: 'Integración Numérica',
     methods: 'Trapecio, Simpson 1/3, Simpson 3/8',
     scenarios: 'D (Costo acumulado)',
-    insight: 'En el Escenario D, la integral de p(x) = 0.5x + 8 en [0, 30] representa el gasto mensual acumulado de la canasta básica con precios crecientes. El resultado (~765 Bs) se compara con el gasto sin inflación (8 × 30 = 240 Bs si el precio fuera fijo). La diferencia (~525 Bs) cuantifica la pérdida de poder adquisitivo. Simpson 1/3 es más preciso que el trapecio con el mismo n.',
+    insight: 'En el Escenario D, la integral de p(x) = 0.5x + 8 en [0, 30] representa el gasto mensual acumulado de la canasta básica con precios crecientes. El resultado (~465 Bs) se compara con el gasto sin inflación (8 × 30 = 240 Bs si el precio fuera fijo). La diferencia (~225 Bs) cuantifica la pérdida de poder adquisitivo. Simpson 1/3 es más preciso que el trapecio con el mismo n.',
   },
   {
     number: '05',
@@ -94,43 +94,43 @@ export function ConclusionsPage() {
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario A — Abastecimiento</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              Jacobi, Gauss-Seidel y Gradiente Conjugado convergen a la misma solución: la Zona Norte recibe ~0.43, la Zona Centro ~-0.73 y la Zona Sur ~0.77 unidades. LU confirma estos valores directamente sin iteraciones. Si una ruta se bloquea (se anula un coeficiente), la solución cambia significativamente, lo que demuestra la sensibilidad del sistema de transporte.
+              Jacobi, Gauss-Seidel y Gradiente Conjugado convergen a la misma solución: la Zona Norte recibe ~0.55, la Zona Centro ~-0.64 y la Zona Sur ~0.43 unidades. LU confirma estos valores directamente sin iteraciones. Si una ruta se bloquea (se anula un coeficiente), la solución cambia significativamente, lo que demuestra la sensibilidad del sistema de transporte.
             </p>
           </div>
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario B — Reservas de carburantes</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              Con R\'(t) = -0.03R y R(0) = 1000, la reserva cae por debajo de 100 unidades alrededor del día 77. Euler con h=1 tiene un error del ~1.5% respecto a la solución exacta R(t) = 1000e^(-0.03t). Heun reduce el error al ~0.1% y RK4 al ~0.0001%. Si el consumo aumenta, la reserva se agota más rápido: con tasa -0.05, cae a 100 en ~46 días.
+              Con R\'(t) = -0.03R y R(0) = 1000, la reserva cae por debajo de 100 unidades alrededor del día 77. Euler con h=1 tiene un error del ~3% respecto a la solución exacta R(t) = 1000e^(-0.03t). Heun reduce el error al ~0.03% y RK4 al ~0.000001%. Si el consumo aumenta, la reserva se agota más rápido: con tasa -0.05, cae a 100 en ~46 días.
             </p>
           </div>
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario C — Curva de precios</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              Los tres métodos (Lagrange, Newton, Splines Cúbicos) estiman el precio de la papa en el día 7 en aproximadamente 11.3 Bs. La curva muestra un incremento sostenido: de 8 Bs el día 1 a 22 Bs el día 30. Los splines cúbicos producen una curva más suave entre puntos, mientras que Lagrange puede oscilar ligeramente con datos dispersos. La interpolación es confiable dentro del rango de datos pero incierta fuera de él.
+              Los tres métodos (Lagrange, Newton, Splines Cúbicos) estiman el precio de la papa en el día 7 en aproximadamente 11.18 Bs. La curva muestra un incremento sostenido: de 8 Bs el día 1 a 22 Bs el día 30. Los splines cúbicos producen una curva más suave entre puntos, mientras que Lagrange puede oscilar ligeramente con datos dispersos. La interpolación es confiable dentro del rango de datos pero incierta fuera de él.
             </p>
           </div>
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario D — Costo acumulado</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              La integral de p(x) = 0.5x + 8 en [0, 30] da ~765 Bs. Si el precio fuera constante a 8 Bs (sin inflación), el gasto sería 240 Bs. La diferencia de 525 Bs representa la pérdida de poder adquisitivo. Simpson 1/3 con n=30 da el resultado más preciso, coincidiendo con el valor analítico de 765.0 Bs.
+              La integral de p(x) = 0.5x + 8 en [0, 30] da ~465 Bs. Si el precio fuera constante a 8 Bs (sin inflación), el gasto sería 240 Bs. La diferencia de 225 Bs representa la pérdida de poder adquisitivo. Simpson 1/3 con n=30 da el resultado más preciso, coincidiendo con el valor analítico de 465.0 Bs.
             </p>
           </div>
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario E — Umbrales críticos</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              La raíz de f(x) = 0.5x² + 8x + 200 - 800 se encuentra en x ≈ 17.4 días. Esto significa que a partir del día 17, el gasto acumulado supera los Bs. 800 de ingreso familiar. Newton-Raphson converge en ~4 iteraciones, Secante en ~6, y Bisección en ~20. Newton es el más rápido pero requiere la derivada; Bisección es el más robusto ante cualquier punto inicial.
+              La raíz de f(x) = 0.5x² + 8x + 200 - 800 se encuentra en x ≈ 27.55 días. Esto significa que a partir del día 27, el gasto acumulado supera los Bs. 800 de ingreso familiar. Newton-Raphson converge en ~4 iteraciones, Secante en ~6, y Bisección en ~26. Newton es el más rápido pero requiere la derivada; Bisección es el más robusto ante cualquier punto inicial.
             </p>
           </div>
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario F — Rumores y pánico</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              La matriz de Hilbert 3x3 está mal condicionada (número de condición alto). LU la resuelve directamente, pero un cambio del 5% en el vector b produce cambios del 200% o más en la solución. Esto modela cómo un rumor leve ("hay escasez") genera pánico de compra y desestabiliza toda la red de distribución. Los métodos iterativos divergen o convergen lentamente en sistemas mal condicionados.
+              La matriz de Hilbert 3x3 tiene un número de condición ≈524. LU la resuelve directamente, pero una perturbación adversarial del 5% en el vector b produce cambios del 200% o más en la solución. Esto modela cómo un rumor leve ("hay escasez") genera pánico de compra y desestabiliza toda la red de distribución. Los métodos iterativos divergen o convergen lentamente en sistemas mal condicionados.
             </p>
           </div>
           <div className="border border-border rounded-lg p-4">
             <h3 className="text-[12px] font-medium text-text">Escenario G — Descontento social (NMD)</h3>
             <p className="text-[12px] text-text-secondary mt-1 leading-relaxed">
-              El modelo NMD muestra que sin mediadores (D0 = 0), los manifestantes crecen rapidamente y los neutrales disminuyen. Con mediadores activos (D0 mayor a 0), el sistema tiende a estabilizarse: la tasa de dialogo efectiva (c) reduce los manifestantes. Si la tasa de contagio (a) es alta y el dialogo es debil (c bajo), el conflicto se masifica. RK4 proporciona la simulacion mas estable para analizar estos comportamientos.
+              El modelo NMD muestra que sin mediadores (D0 = 0), los manifestantes crecen rápidamente y los neutrales disminuyen. Con mediadores activos (D0 mayor a 0), el sistema tiende a estabilizarse: la tasa de diálogo efectiva (c) reduce los manifestantes. Si la tasa de contagio (a) es alta y el diálogo es débil (c bajo), el conflicto se masifica. RK4 proporciona la simulación más estable para analizar estos comportamientos.
             </p>
           </div>
         </div>
@@ -141,7 +141,7 @@ export function ConclusionsPage() {
         <ul className="space-y-2 text-[12px] text-text-secondary leading-relaxed">
           <li className="flex items-start gap-2">
             <span className="text-forest mt-0.5">-</span>
-            Los métodos iterativos pueden no converger si la condición inicial está lejos de la solución o la matriz no es diagonal dominante.
+            Los métodos iterativos pueden no converger si la condición inicial está lejos de la solución o la matriz no es diagonalmente dominante.
           </li>
           <li className="flex items-start gap-2">
             <span className="text-forest mt-0.5">-</span>
